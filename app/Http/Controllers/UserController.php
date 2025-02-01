@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -163,6 +164,72 @@ class UserController extends Controller
             return view('admin.userManagement.userManagement',compact('data'));
 
         }catch (Exception $e){
+            return redirect()->back()->withErrors(['Something Went Wrong']);
+        }
+    }
+
+    public function AddUser(Request $request)
+    {
+
+        try {
+
+            $request->validate([
+                'profileImage' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'contact' => 'required|digits:10|unique:users|regex:/^[0-9]{10}$/',
+                'role' => 'required',
+                'password' => 'required|min:6',
+            ],[
+                'profileImage.image' => 'The image must be a valid image file.',
+                'profileImage.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+                'profileImage.max' => 'The image may not be greater than 2 MB.',
+                'contact.required' => 'The contact number is required.',
+                'contact.digits' => 'The contact number must be exactly 10 digits.',
+                'contact.unique' => 'The contact number has already been taken.',
+                'contact.regex' => 'The contact number must contain only numbers (0-9).',
+                'name.required' => 'The Name requied.',
+                'role.required' => 'The Role requied.',
+                'email.required' => 'The Email requied.',
+                'email.email' => 'The email must be a valid email address.',
+                'email.unique' => 'The email has already been taken.',
+                'password.required' => 'The Password requied.',
+                'password.min' => 'The password must be at least 6 characters.',
+            ]);
+
+            // dd($request->all());
+
+            if(!empty($request->profileImage)) {
+                $imageName = $request->profileImage->getClientOriginalName();
+                $request->profileImage->move(public_path('userProfileImage'), $imageName);
+            }else{
+                $imageName = 'default.png';
+            }
+
+            $userId = Str::random(7);
+
+            if(User::where('userId',$userId)->exists()){
+                $userId = Str::random(7);
+            } 
+
+            $user = new User();
+            $user->userId = $userId;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->contact = $request->contact;
+            $user->role = $request->role;
+            $user->password = Hash::make($request->password);
+            $user->isActive = 1;
+            $user->profileImage = $imageName;
+            $user->save();
+
+           
+
+            return redirect()->back()->with('message', 'User Added Successfully !');
+
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (Exception $e) {
             return redirect()->back()->withErrors(['Something Went Wrong']);
         }
     }

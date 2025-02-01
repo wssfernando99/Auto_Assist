@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //user
     Route::get('/userManagement', [UserController::class, 'UserManagement']);
-    Route::post('/addUser', [UserController::class, 'AddUser']);
+    Route::post('/addUser', [UserController::class, 'AddUser'])->name('addUser');
     Route::post('/editUser', [UserController::class, 'EditUser']);
     Route::get('/disableUser{id}', [UserController::class, 'DisableUser']);
     Route::get('/reactiveUser{id}', [UserController::class, 'ReactiveUser']);

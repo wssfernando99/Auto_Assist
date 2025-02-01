@@ -15,7 +15,11 @@
 
                 @include('layouts.header')
 
-                    
+                
+
+                    {{--  content  --}}
+
+                <div class="container-fluid flex-grow-1 container-p-y">
                     @if (session()->has('message'))
                     <div class="col-md-4">
                           <div class="alert alert-success alert-dismissible" role="alert">
@@ -39,10 +43,6 @@
                         </div>
                     @endif
                     @endforeach
-
-                    {{--  content  --}}
-
-                <div class="container-xxl flex-grow-1 container-p-y">
                     <div class="d-flex justify-content-between  py-3 mb-4">
                         <h4 class="fw-bold"><span class="text-muted fw-light"></span>User Management</h4>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-modal">
@@ -53,7 +53,7 @@
                     <div class="card">
                         <h5 class="card-header">All Users in the System</h5>
                         <div class="table-responsive text-nowrap overflow-visible">
-                            <table class="table">
+                            <table id="myTable" class="table ">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -79,7 +79,7 @@
                                         <td>
                                             {{ $user->role }}
                                         </td>
-                                        <td>@if($user->isActive == 1)<span class="badge bg-label-primary me-1">Active</span>
+                                        <td>@if($user->isActive == 1)<span class="badge bg-label-success me-1 text-success">Active</span>
                                             @else<span class="badge bg-label-danger me-1">Disabled</span>
                                             @endif
                                         </td>
@@ -126,6 +126,26 @@
         </div>
     </div>
 
+
     @include('admin.userManagement.modals.createModal')
 
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+    </script>
+
+    @if($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = new bootstrap.Modal(document.getElementById('create-modal'));
+            modal.show();
+        });
+    </script>
+    @endif
+
+    
 @endsection
