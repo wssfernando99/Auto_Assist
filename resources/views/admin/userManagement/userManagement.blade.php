@@ -19,7 +19,7 @@
 
                     {{--  content  --}}
 
-                <div class="container-fluid flex-grow-1 container-p-y">
+                <div class="container-xxl flex-grow-1 container-p-y">
                     @if (session()->has('message'))
                     <div class="col-md-4">
                           <div class="alert alert-success alert-dismissible" role="alert">
@@ -32,7 +32,7 @@
                     @endif
 
                     @foreach ($errors->all() as $error)
-                    @if (!$errors->has('name') && !$errors->has('contact'))
+                    @if (!$errors->has('email') && !$errors->has('contact'))
                         <div class="col-md-4">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
@@ -91,7 +91,9 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="javascript:void(0)"
-                                                        data-bs-toggle="modal" data-bs-target="#edit-modal{{ $user->id }}"><i
+                                                        data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="{{ $user->id }}" data-name="{{ $user->name }}"
+                                                        data-email="{{ $user->email }}" data-role="{{ $user->role }}" 
+                                                        data-contact="{{ $user->contact }}" data-profileimage="{{ asset('userProfileImage/' . $user->profileImage) }}"><i
                                                             class="bx bx-edit-alt me-1"></i> Edit</a>
                                                     @if ($user->isActive == 1)
                                                     <a class="dropdown-item" href="edit_user"
@@ -126,8 +128,42 @@
         </div>
     </div>
 
-
+    @include('admin.userManagement.modals.edit-Modal')
     @include('admin.userManagement.modals.createModal')
+    
+    @include('admin.userManagement.modals.deactive-Modal')
+    @include('admin.userManagement.modals.active-Modal')
+
+    @include('admin.userManagement.modals.delete-Modal')
+    @include('admin.userManagement.modals.password-Modal')
+
+    <script>
+        $(document).ready(function () {
+            $('#edit-modal').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget); // Button that triggered the modal
+                let id = button.data('id');
+                let name = button.data('name');
+                let email = button.data('email');
+                let role = button.data('role');
+                let contact = button.data('contact');
+                let profileimage = button.data('profileimage')
+
+                let modal = $(this);
+                modal.find('#id').val(id);
+                modal.find('#name').val(name);
+                modal.find('#email').val(email);
+                modal.find('#role').val(role);
+                modal.find('#contact').val(contact);
+                
+                if (profileimage) {
+                    modal.find('#profilePreview').attr('src', profileimage);
+                } else {
+                    modal.find('#profilePreview').attr('src', 'default-profile.jpg'); // Fallback image
+                }
+            });
+        });
+
+    </script>
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
@@ -138,14 +174,34 @@
         });
     </script>
 
-    @if($errors->any())
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let modal = new bootstrap.Modal(document.getElementById('create-modal'));
-            modal.show();
-        });
-    </script>
-    @endif
+   
+        @if($errors->has('name') || $errors->has('email') || $errors->has('contact') || $errors->has('profileImage') || $errors->has('password') || $errors->has('role'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let modal = new bootstrap.Modal(document.getElementById('create-modal'));
+                modal.show();
+            });
+        
+        </script>
+        @endif
+        
+   
+        @if($errors->has('ename') || $errors->has('eemail') || $errors->has('econtact') || $errors->has('eprofileImage') ||  $errors->has('erole'))
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                let modal = new bootstrap.Modal(document.getElementById('edit-modal'));
+                 modal.show();
+             }); 
+        
+            </script>
+        @endif
+        
+   
+
+
+    
+
+   
 
     
 @endsection
