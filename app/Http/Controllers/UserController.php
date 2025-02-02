@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -38,6 +39,9 @@ class UserController extends Controller
 
                 return redirect('/adminDashboard');
                 
+            } else if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'isActive' => 0])){
+
+                return redirect()->back()->withInput($request->only('email'))->with('error', "Sorry! you can't access the system");
             }
 
             return redirect()->back()->withInput($request->only('email'))->with('error', 'Invalid login credentials');
@@ -54,7 +58,6 @@ class UserController extends Controller
             session()->forget('role');
             session()->forget('id');
             session()->forget('userId');
-            session()->forget('image');
             session()->flush();
 
             return redirect('/');
@@ -197,20 +200,21 @@ class UserController extends Controller
                 'password.min' => 'The password must be at least 6 characters.',
             ]);
 
-            // dd($request->all());
+            
+            $userId = Str::random(7);
+
+            if(User::where('userId',$userId)->exists()){
+                $userId = Str::random(7);
+            }
 
             if(!empty($request->profileImage)) {
-                $imageName = $request->profileImage->getClientOriginalName();
+                $imageName = $userId . '_' .$request->profileImage->getClientOriginalName();
                 $request->profileImage->move(public_path('userProfileImage'), $imageName);
             }else{
                 $imageName = 'default.png';
             }
 
-            $userId = Str::random(7);
-
-            if(User::where('userId',$userId)->exists()){
-                $userId = Str::random(7);
-            } 
+             
 
             $user = new User();
             $user->userId = $userId;
@@ -229,6 +233,150 @@ class UserController extends Controller
 
         } catch (ValidationException $e) {
             throw $e;
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['Something Went Wrong']);
+        }
+    }
+
+    public function EditUser(Request $request)
+    {
+
+        try {
+
+            $id = $request->id;
+
+            $request->validate([
+                'eprofileImage' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'ename' => 'required',
+                'eemail' => 'required|email',
+                'econtact' => 'required|digits:10|regex:/^[0-9]{10}$/',
+                'erole' => 'required',
+            ],[
+                'eprofileImage.image' => 'The image must be a valid image file.',
+                'eprofileImage.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+                'eprofileImage.max' => 'The image may not be greater than 2 MB.',
+                'econtact.required' => 'The contact number is required.',
+                'econtact.digits' => 'The contact number must be exactly 10 digits.',
+                'econtact.regex' => 'The contact number must contain only numbers (0-9).',
+                'ename.required' => 'The Name requied.',
+                'erole.required' => 'The Role requied.',
+                'eemail.required' => 'The Email requied.',
+                'eemail.email' => 'The email must be a valid email address.',
+            ]);
+
+
+            if(User::where('email', $request->eemail)->whereNotIn('id', [$request->id])
+            ->exists()){
+
+                return back()->withErrors([
+                    'eemail' => 'The email you entered is already taken.',
+                ]);
+
+            }else if(User::where('contact', $request->econtact)->whereNotIn('id', [$request->id])
+            ->exists()){
+
+                return back()->withErrors([
+                    'econtact' => 'The contact you entered is already taken.',
+                ]);
+
+            }else{
+                $user = User::find($id);
+
+                $userId = $user->userId;
+    
+                if(!empty($request->eprofileImage)) {
+    
+                    $imagePath = public_path('userProfileImage'. $user->profileImage);
+    
+                    if(file_exists($imagePath)){
+    
+                        unlink($imagePath);
+                    }
+    
+                    $imageName = $userId . '_' .$request->eprofileImage->getClientOriginalName();
+                    $request->eprofileImage->move(public_path('userProfileImage'), $imageName);
+                }else{
+                    $imageName = $user->profileImage;
+                }
+    
+                User::where(['id' => $id])->update([
+                    'name' => $request->ename,
+                    'email' => $request->eemail,
+                    'role' => $request->erole,
+                    'contact' => $request->econtact,
+                    'profileImage' => $imageName,
+                 ]);
+                
+                return redirect()->back()->with('message', 'User Details Edited Successfully');
+            }
+
+            
+
+           
+        }catch (ValidationException $e) {
+            throw $e;
+        }catch (Exception $e) {
+            return redirect()->back()->withErrors(['Something Went Wrong']);
+        }
+    }
+
+    public function DisableUser($id)
+    {
+        try {
+            User::where('id' , $id)->update([
+                'isActive' => 0
+            ]);
+
+            $user = User::find($id);
+            
+            return redirect()->back()->with('message', 'User Disabled Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['Something Went Wrong']);
+        }
+    }
+
+    public function ReactiveUser($id)
+    {
+        try {
+            User::where('id', $id)->update([
+                'isActive' => 1
+            ]);
+
+
+            return redirect()->back()->with('message', 'User Reactivated Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['Something Went Wrong']);
+        }
+    }
+
+    public function ResetPassword(Request $request)
+    {
+
+        try {
+            $id = $request->id;
+
+            User::where(['id' => $id])->update([
+                'password' => Hash::make($request->pwd)
+            ]);
+            
+            return redirect()->back()->with('message', 'Password Reset Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['Something Went Wrong']);
+        }
+    }
+
+    public function DeleteUser(Request $request)
+    {
+
+        try {
+            $id = $request->id;
+
+            $user = User::find($id);
+
+            $user->delete();
+            
+            return redirect()->back()->with('message', 'Deleted successfully.');
+
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['Something Went Wrong']);
         }

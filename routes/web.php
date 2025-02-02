@@ -27,10 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/userManagement', [UserController::class, 'UserManagement']);
     Route::post('/addUser', [UserController::class, 'AddUser'])->name('addUser');
     Route::post('/editUser', [UserController::class, 'EditUser']);
-    Route::get('/disableUser{id}', [UserController::class, 'DisableUser']);
-    Route::get('/reactiveUser{id}', [UserController::class, 'ReactiveUser']);
+    Route::post('/disableUser/{id}', [UserController::class, 'DisableUser']);
+    Route::post('/enableUser/{id}', [UserController::class, 'ReactiveUser']);
     Route::post('/resetPassword', [UserController::class, 'ResetPassword']);
-    Route::get('/subcontractor', [UserController::class, 'Subcontractor']);
+    Route::post('/deleteUser/{id}', [UserController::class, 'DeleteUser']);
 
     
 });
