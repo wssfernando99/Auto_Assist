@@ -27,9 +27,9 @@
         </li>
 
 
-        <li class="menu-item {{ Request::is('sheetManagement') ? 'active' : '' }}">
+        <li class="menu-item {{ Request::is('userManagement') ? 'active' : '' }}">
             <!-- link -->
-            <a href="{{ url('/sheetManagement') }}" class="menu-link text-dark">
+            <a href="{{ url('/userManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bx bx-dumbbell"></i>
                 <div data-i18n="Analytics">User Management</div>
             </a>
