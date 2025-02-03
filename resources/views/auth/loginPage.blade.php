@@ -1,4 +1,4 @@
-@extends('layouts.adminLayout')
+@extends('auth.authLayout')
 
 @section('content')
 
@@ -21,11 +21,13 @@
                   <p class="mb-4">Please sign-in to your account</p>
       
                   @if ($errors->any())
+                  @if (!$errors->has('email') || !$errors->has('password'))
                   <div class="container">
-                      <div class="alert alert-danger" role="alert">
-                          {{ $errors->first() }}
-                      </div>
-                  </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ $errors->first() }}
+                    </div>
+                </div>
+                  @endif
                   @endif
       
                     @if (session('error'))
