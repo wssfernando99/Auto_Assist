@@ -22,6 +22,8 @@
                 <div data-i18n="Analytics" >Back to Dashboard</div>
             </a>
         </li>
+        @if ($role == 'Admin')
+            
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">User Management</span>
         </li>
@@ -35,6 +37,8 @@
             </a>
         </li>
 
+        @endif
+        
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Settings</span>
         </li>

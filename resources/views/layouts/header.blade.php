@@ -46,11 +46,11 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <!-- user name -->
-                                    {{-- <span
-                                        class="fw-semibold d-block">{{ \Illuminate\Support\Facades\Auth::user()->name }}</span> --}}
+                                    <span
+                                        class="fw-semibold d-block">{{ $name }}</span>
                                     <!-- user role -->
-                                    {{-- <small
-                                        class="text-muted">{{ \Illuminate\Support\Facades\Auth::user()->role }}</small> --}}
+                                    <small
+                                        class="text-muted">{{ $role }}</small>
                                 </div>
                             </div>
                         </a>
@@ -74,7 +74,7 @@
                         </a>
                     </li>
                     {{-- @endif --}}
-                    {{-- @if($role == 'Admin') --}}
+                    @if($role == 'Admin')
                     <li>
                         <a class="dropdown-item" href="{{ url('/userManagement') }}">
                             <i class="bx bx-user-plus me-2"></i>
@@ -82,7 +82,7 @@
                             <span class="align-middle">User Management</span>
                         </a>
                     </li>
-                    {{-- @endif --}}
+                    @endif
 
                     <li>
                         <div class="dropdown-divider"></div>

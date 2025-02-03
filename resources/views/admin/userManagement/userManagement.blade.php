@@ -10,6 +10,8 @@
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
 
+            @if($role == 'Admin')
+
             @include('layouts.userSideBar')
 
             <div class="layout-page">
@@ -108,7 +110,7 @@
                                                     @endif
                                                     
                                                     <a class="dropdown-item" href="edit_user"
-                                                        data-bs-toggle="modal" data-bs-target="#password-modal{{ $user->id }}"><i
+                                                        data-bs-toggle="modal" data-bs-target="#password-modal" data-id="{{ $user->id }}"><i
                                                             class='bx bx-reset'></i>Reset Password</a>
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
                                                         data-bs-toggle="modal" data-bs-target="#delete-modal{{ $user->id }}"><i
@@ -127,6 +129,20 @@
         
                 
             </div>
+            @else
+            <div class="container mt-4">
+                <div class="alert alert-danger text-center" role="alert">
+                    <strong>Access Denied!</strong> You do not have permission to view this page.
+                </div>
+                <div class="text-center mb-5">
+                    <a href="{{ url('/adminDashboard') }}" class="btn btn-secondary">back to Dashoard</a>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <img src="{{ asset('fixedImages/access_denied.jpg') }}" alt="user-avatar" class="d-block rounded" height="400" id="uploadedAvatar" />
+                </div>
+            </div>
+            
+            @endif
         </div>
     </div>
 
@@ -167,6 +183,20 @@
 
     </script>
 
+<script>
+    $(document).ready(function () {
+        $('#password-modal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget); // Button that triggered the modal
+            let id = button.data('id');
+
+            let modal = $(this);
+            modal.find('#id').val(id);
+            
+        });
+    });
+
+</script>
+
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
@@ -192,6 +222,16 @@
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                 let modal = new bootstrap.Modal(document.getElementById('edit-modal'));
+                 modal.show();
+             }); 
+        
+            </script>
+        @endif
+
+        @if($errors->has('cpwd'))
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                let modal = new bootstrap.Modal(document.getElementById('password-modal'));
                  modal.show();
              }); 
         
