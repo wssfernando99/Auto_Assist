@@ -57,7 +57,7 @@
                     <div class="card">
                         <h5 class="card-header">All Users in the System</h5>
                         <div class="table-responsive text-nowrap overflow-visible">
-                            <table id="myTable" class="table ">
+                            <table id="myTable" class="table">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -155,6 +155,18 @@
     @include('admin.userManagement.modals.delete-Modal')
     @include('admin.userManagement.modals.password-Modal')
 
+    
+
+
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+    </script>
+    
     <script>
         $(document).ready(function () {
             $('#edit-modal').on('show.bs.modal', function (event) {
@@ -197,15 +209,7 @@
 
 </script>
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
-        });
-    </script>
-
+    
    
         @if($errors->has('name') || $errors->has('email') || $errors->has('contact') || $errors->has('profileImage') || $errors->has('password') || $errors->has('role'))
         <script>
