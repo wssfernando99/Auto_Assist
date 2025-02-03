@@ -32,10 +32,13 @@ class UserController extends Controller
                 $name = Auth::user()->name;
                 $userId = Auth::user()->userId;
                 $role = Auth::user()->role;
+                $profileImage = Auth::user()->profileImage;
                 session()->put('id', $id);
                 session()->put('userId', $userId);
                 session()->put('name',$name);
                 session()->put('role', $role);
+                session()->put('profileImage', $profileImage);
+
 
                 return redirect('/adminDashboard');
                 
@@ -58,6 +61,9 @@ class UserController extends Controller
             session()->forget('role');
             session()->forget('id');
             session()->forget('userId');
+            session()->forget('name');
+            session()->forget('profileImage');
+
             session()->flush();
 
             return redirect('/');
@@ -75,7 +81,7 @@ class UserController extends Controller
 
             return view('admin.profile.adminUserProfile', compact('data'));
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -87,25 +93,54 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required',
                 'contact' => 'required|digits:10|regex:/^[0-9]{10}$/',
+                'profileImage' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable'
             ],[
                 'contact.required' => 'The contact number is required.',
                 'contact.digits' => 'The contact number must be exactly 10 digits.',
                 'contact.regex' => 'The contact number must contain only numbers (0-9).',
                 'name.required' => 'The Name requied.',
+                'profileImage.image' => 'The image must be a valid image file.',
+                'profileImage.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+                'profileImage.max' => 'The image may not be greater than 2 MB.',
+
             ]);
 
             $id = session('id');
 
+            $user = User::find($id);
+
+            if(!empty($request->profileImage)) {
+    
+                $imagePath = public_path('userProfileImage/'. $user->profileImage);
+
+                if(file_exists($imagePath) && $user->profileImage !== 'default.png') {
+
+                    unlink($imagePath);
+                }
+
+                $imageName = $user->userId . '_' .$request->profileImage->getClientOriginalName();
+                $request->profileImage->move(public_path('userProfileImage'), $imageName);
+            }else{
+                $imageName = $user->profileImage;
+            }
+
+            
+
             User::where(['id' => $id])->update([
                 'name' => $request->name,
                 'contact' => $request->contact,
+                'profileImage' => $imageName,
             ]);
+
+            session()->forget('profileImage');
+            session()->put('profileImage', $imageName);
+            
             return redirect()->back()->with('message', 'Your User Details Edited Successfully');
 
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -114,7 +149,7 @@ class UserController extends Controller
         try {
             return view('admin.profile.changePasswordPage');
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -138,7 +173,7 @@ class UserController extends Controller
             $user = User::find($userId);
 
             if (!$user) {
-                return redirect()->back()->withErrors(['User not found.']);
+                return redirect()->back()->with('error','Something Went Wrong');
             }
 
             if (Hash::check($currentPassword, $user->password)) {
@@ -152,7 +187,7 @@ class UserController extends Controller
         } catch (ValidationException $e) {
             throw $e;
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -167,7 +202,7 @@ class UserController extends Controller
             return view('admin.userManagement.userManagement',compact('data'));
 
         }catch (Exception $e){
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -201,10 +236,10 @@ class UserController extends Controller
             ]);
 
             
-            $userId = Str::random(7);
+            $userId = Str::random(7, '1234567890');
 
             if(User::where('userId',$userId)->exists()){
-                $userId = Str::random(7);
+                $userId = Str::random(7, '1234567890');
             }
 
             if(!empty($request->profileImage)) {
@@ -234,7 +269,7 @@ class UserController extends Controller
         } catch (ValidationException $e) {
             throw $e;
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -286,9 +321,9 @@ class UserController extends Controller
     
                 if(!empty($request->eprofileImage)) {
     
-                    $imagePath = public_path('userProfileImage'. $user->profileImage);
+                    $imagePath = public_path('userProfileImage/'. $user->profileImage);
     
-                    if(file_exists($imagePath)){
+                    if(file_exists($imagePath) && $user->profileImage !== 'default.png') {
     
                         unlink($imagePath);
                     }
@@ -316,7 +351,7 @@ class UserController extends Controller
         }catch (ValidationException $e) {
             throw $e;
         }catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -331,7 +366,7 @@ class UserController extends Controller
             
             return redirect()->back()->with('message', 'User Disabled Successfully');
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -345,7 +380,7 @@ class UserController extends Controller
 
             return redirect()->back()->with('message', 'User Reactivated Successfully');
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -361,7 +396,7 @@ class UserController extends Controller
             
             return redirect()->back()->with('message', 'Password Reset Successfully');
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 
@@ -378,7 +413,7 @@ class UserController extends Controller
             return redirect()->back()->with('message', 'Deleted successfully.');
 
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Something Went Wrong']);
+            return redirect()->back()->with('error','Something Went Wrong');
         }
     }
 }
