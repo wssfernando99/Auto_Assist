@@ -1,8 +1,9 @@
 @php
     $id = session('id');
+    $name = session('name');
     $role = session('role');
+    $profileImage = session('profileImage');
 @endphp
-
 @extends('layouts.adminLayout')
 
 @section('content')
