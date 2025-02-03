@@ -2,6 +2,7 @@
     $id = session('id');
     $name = session('name');
     $role = session('role');
+    $profileImage = session('profileImage');
 @endphp
 @extends('layouts.adminLayout')
 
@@ -31,18 +32,19 @@
                     </div>
                     @endif
 
-                    @foreach ($errors->all() as $error)
-                    @if (!$errors->has('email') && !$errors->has('contact'))
+                    @if (session()->has('error'))
+                    
                         <div class="col-md-4">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
-                                <p class="mb-0">{{ $error }}</p>
+                                <p class="mb-0">{{ session()->get('error') }}</p>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                 </button>
                             </div>
                         </div>
+                    
                     @endif
-                    @endforeach
+
                     <div class="d-flex justify-content-between  py-3 mb-4">
                         <h4 class="fw-bold"><span class="text-muted fw-light"></span>User Management</h4>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-modal">

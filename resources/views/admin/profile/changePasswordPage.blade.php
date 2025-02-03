@@ -2,7 +2,8 @@
     $id = session('id');
     $name = session('name');
     $role = session('role');
-@endphp
+    $profileImage = session('profileImage');
+@endphpp
 @extends('layouts.adminLayout')
 
 @section('content')
@@ -34,18 +35,18 @@
                     </div>
                     @endif
 
-                    @foreach ($errors->all() as $error)
-                    @if (!$errors->has('cPwd') && !$errors->has('newPwd'))
-                        <div class="col-md-4">
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
-                                <p class="mb-0">{{ $error }}</p>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                </button>
-                            </div>
+                    @if (session()->has('error'))
+                    
+                    <div class="col-md-4">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
+                            <p class="mb-0">{{ session()->get('error') }}</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
                         </div>
-                    @endif
-                    @endforeach
+                    </div>
+                
+                  @endif
                     
                     
                     <!-- Connection Cards -->
