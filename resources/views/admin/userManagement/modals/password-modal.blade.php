@@ -7,7 +7,7 @@
                 <h5 class="modal-title" id="exampleModalLabel1">Change Password</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ url('resetPassword') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ url('resetPassword') }}" novalidate method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <input type="text" class="form-control" id="id" name="id" hidden >
@@ -20,8 +20,11 @@
                             <div class="col-md-12">
                                 <label class="form-label">Password<span
                                         class="text-danger">*</span></label>
-                                <input class="form-control" type="password" name="pwd"
+                                <input class="form-control @error('cpwd') is-invalid @enderror" type="password" name="cpwd"
                                     id="pwd" required>
+                                @error('cpwd')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
 
                             </div>
                         </div>

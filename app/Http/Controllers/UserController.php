@@ -388,13 +388,23 @@ class UserController extends Controller
     {
 
         try {
+
+            $request->validate([
+                'cpwd' => 'required|min:6',
+            ],[
+                'cpwd.required' => 'The password is required.',
+                'cpwd.min' => 'The password must be at least 6 characters long.',
+            ]);
+
             $id = $request->id;
 
             User::where(['id' => $id])->update([
-                'password' => Hash::make($request->pwd)
+                'password' => Hash::make($request->cpwd)
             ]);
             
             return redirect()->back()->with('message', 'Password Reset Successfully');
+        }catch (ValidationException $e) {
+            throw $e;
         } catch (Exception $e) {
             return redirect()->back()->with('error','Something Went Wrong');
         }
