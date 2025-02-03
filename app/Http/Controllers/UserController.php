@@ -134,7 +134,7 @@ class UserController extends Controller
 
             session()->forget('profileImage');
             session()->put('profileImage', $imageName);
-            
+
             return redirect()->back()->with('message', 'Your User Details Edited Successfully');
 
         } catch (ValidationException $e) {
@@ -409,6 +409,13 @@ class UserController extends Controller
             $user = User::find($id);
 
             $user->delete();
+
+            $imagePath = public_path('userProfileImage/'. $user->profileImage);
+    
+            if(file_exists($imagePath) && $user->profileImage !== 'default.png') {
+    
+                unlink($imagePath);
+            }
             
             return redirect()->back()->with('message', 'Deleted successfully.');
 
