@@ -28,8 +28,9 @@
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar ">
                         <!-- user image -->
-                        <img src="{{ URL::asset('/assets/img/carlogo.png') }}"
+                        <img src="{{ asset('userProfileImage/' . $profileImage) }}" alt="user image"
                             class="w-px-40 h-px-40 rounded-circle" />
+
                     </div>
                 </a>
 
@@ -40,7 +41,7 @@
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar">
                                         <!-- user image -->
-                                        {{-- <img src="{{ URL::to('/') }}/users/{{$image}}"  class="w-px-40 h-px-40 rounded-circle" /> --}}
+                                        <img src="{{ asset('userProfileImage/' . $profileImage) }}"  class="w-px-40 h-px-40 rounded-circle" />
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
