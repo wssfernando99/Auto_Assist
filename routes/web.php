@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/resetPassword', [UserController::class, 'ResetPassword']);
     Route::post('/deleteUser/{id}', [UserController::class, 'DeleteUser']);
 
+    //employee
+    Route::get('/employeeManagement', [EmployeeController::class, 'EmployeeDetails']);
     
 });
