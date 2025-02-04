@@ -66,6 +66,7 @@
                                         <th>Contact</th>
                                         <th>position</th>
                                         <th>NIC</th>
+                                        <th>Last Updated By</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -94,6 +95,9 @@
                                         </td>
                                         <td>
                                             {{ $employee->nic }}
+                                        </td>
+                                        <td>
+                                            {{ $employee->userName }}
                                         </td>
                                         
                                         <td >
