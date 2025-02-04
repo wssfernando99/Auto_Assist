@@ -69,6 +69,11 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
+                                    @if (count($data) == 0)
+                                        <tr>
+                                            <td colspan="6" class="text-center">No Data Available</td>
+                                        </tr>
+                                    @endif
                                     @foreach ($data as $user )
                                     <tr>
                                         <td>
