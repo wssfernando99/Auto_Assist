@@ -236,10 +236,10 @@ class UserController extends Controller
             ]);
 
             
-            $userId = Str::random(7, '1234567890');
+            $userId = 'user_'.Str::random_int(7, '1234567890');
 
             if(User::where('userId',$userId)->exists()){
-                $userId = Str::random(7, '1234567890');
+                $userId = 'user_'.Str::random_int(7, '1234567890');
             }
 
             if(!empty($request->profileImage)) {
