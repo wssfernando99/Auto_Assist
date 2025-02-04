@@ -23,15 +23,23 @@
             </a>
         </li>
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Sheet</span>
+            <span class="menu-header-text">Employee Management</span>
         </li>
 
 
         <li class="menu-item {{ Request::is('sheetManagement') ? 'active' : '' }}">
             <!-- link -->
+            <a href="{{ url('/employeeManagement') }}" class="menu-link text-dark">
+                <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+                <div data-i18n="Analytics">Employee Details</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ Request::is('sheetManagement') ? 'active' : '' }}">
+            <!-- link -->
             <a href="{{ url('/sheetManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bx bx-dumbbell"></i>
-                <div data-i18n="Analytics">Sheet Management</div>
+                <div data-i18n="Analytics">Salary Manage</div>
             </a>
         </li>
 
