@@ -1,4 +1,4 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu">
+<aside id="layout-menu" class="layout-menu menu-vertical menu  ">
     <div class="app-brand demo">
         <a href="{{ url('/adminDashboard') }}" class="app-brand-link">
             <img class="img-fluid" src="{{ URL::asset('/assets/img/carlogo.png') }}" alt=""
@@ -27,71 +27,74 @@
         </li>
 
 
-        <li class="menu-item {{ Request::is('sheetManagement') ? 'active' : '' }}">
+        <li class="menu-item {{ Request::is('employeeManagement') ? 'active' : '' }}">
             <!-- link -->
             <a href="{{ url('/employeeManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+                <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
                 <div data-i18n="Analytics">Employee Details</div>
             </a>
         </li>
 
-        <li class="menu-item {{ Request::is('sheetManagement') ? 'active' : '' }}">
+        <li class="menu-item {{ Request::is('salaryManagement') ? 'active' : '' }}">
             <!-- link -->
-            <a href="{{ url('/sheetManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+            <a href="#" class="menu-link text-dark">
+                <i class="menu-icon tf-icons bi bi-currency-dollar"></i>
                 <div data-i18n="Analytics">Salary Manage</div>
             </a>
         </li>
 
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Product</span>
+            <span class="menu-header-text">Customer Management</span>
         </li>
 
 
         <li class="menu-item {{ Request::is('productManagement') ? 'active' : '' }}">
             <!-- link -->
             <a href="{{ url('/productManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bx bx-dumbbell"></i>
-                <div data-i18n="Analytics">Product Management</div>
+                <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
+                <div data-i18n="Analytics">Customer Details</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
+            <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
+                <i class="menu-icon tf-icons bi bi-car-front-fill"></i>
+                <div data-i18n="Analytics">Vehicle Details</div>
             </a>
         </li>
 
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Inventory</span>
+            <span class="menu-header-text">Inventory Management</span>
         </li>
 
 
         <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
             <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bx bx-dumbbell"></i>
-                <div data-i18n="Analytics">Material</div>
+                <i class="menu-icon tf-icons bi bi-box-seam"></i>
+                <div data-i18n="Analytics">Inventory Manage</div>
             </a>
         </li>
 
-        <li class="menu-item {{ Request::is('machineManagement') ? 'active' : '' }}">
-            <a href="{{ url('/machineManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bx bxs-washer"></i>
-                <div data-i18n="Analytics">Machine</div>
-            </a>
-        </li>
-
-        
-
-        <li class="menu-item {{ Request::is('capacityManagement') ? 'active' : '' }}">
-            <a href="{{ url('/capacityManagement') }}" class="menu-link text-dark">
-                <i class='menu-icon bx bxs-coffee-togo'></i>
-                <div data-i18n="Analytics">Capacity </div>
-            </a>
-        </li>
-        <li class="menu-item {{ Request::is('productTypeManagement') ? 'active' : '' }}">
-
-            <a href="{{ url('/productTypeManagement') }}" class="menu-link text-dark">
-                <i class='menu-icon bx bx-package'></i>
-                <div data-i18n="Analytics">Product Type  </div>
-            </a>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Maintenance Predict</span>
         </li>
 
 
+        <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
+            <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
+                <i class="menu-icon tf-icons bi bi-exclamation-triangle-fill "></i> 
+
+                <div data-i18n="Analytics">Maintenance Alerts</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
+            <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
+                <i class="menu-icon tf-iconsbi bi-tools"></i> 
+
+                <div data-i18n="Analytics">Service Roud alerts</div>
+            </a>
+        </li>
+
+    
     
     </ul>
 </aside>

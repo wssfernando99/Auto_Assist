@@ -32,7 +32,7 @@
         <li class="menu-item {{ Request::is('userManagement') ? 'active' : '' }}">
             <!-- link -->
             <a href="{{ url('/userManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+                <i class="menu-icon tf-iconsbi bi-people-fill"></i>
                 <div data-i18n="Analytics">User Management</div>
             </a>
         </li>
@@ -47,7 +47,7 @@
         <li class="menu-item {{ Request::is('/userProfile') ? 'active' : '' }}">
             <!-- link -->
             <a href="{{ url('/userProfile') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+                <i class="menu-icon tf-icons bi bi-person-fill"></i>
                 <div data-i18n="Analytics">Profile</div>
             </a>
         </li>

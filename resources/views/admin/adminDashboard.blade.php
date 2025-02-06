@@ -72,7 +72,7 @@
                                         {{-- <img src="{{ asset('assets/img/report.png') }}" class="img-fluid" width="45"
                                             alt=""> --}}
                                         {{-- card title --}}
-                                        <h5 class="mt-3">Test</h5>
+                                        <h5 class="mt-3">Notifications</h5>
                                     </div>
             
                                     {{-- card info --}}

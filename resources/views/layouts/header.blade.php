@@ -6,10 +6,8 @@
         </a>
     </div>
 
-    <div >
+    <div id="live-time" class="text-dark font-weight-bold"></div>
 
-
-    </div>
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
@@ -105,3 +103,31 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
    
+
+<script>
+    function getFormattedDate() {
+        const now = new Date();
+        const day = now.getDate();
+        const month = now.toLocaleString('en-US', { month: 'long' }); // Full month name
+        const year = now.getFullYear();
+        
+        // Add ordinal suffix (st, nd, rd, th)
+        const suffix = (day % 10 === 1 && day !== 11) ? "st" : 
+                       (day % 10 === 2 && day !== 12) ? "nd" : 
+                       (day % 10 === 3 && day !== 13) ? "rd" : "th";
+  
+        return `${day}${suffix} ${month} ${year}`;
+    }
+  
+    function updateDateTime() {
+        const formattedDate = getFormattedDate();
+        const formattedTime = new Date().toLocaleTimeString(); // Format: HH:MM:SS AM/PM
+        document.getElementById("live-time").innerHTML = `${formattedDate} - ${formattedTime}`;
+    }
+  
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+  </script>
+
+
+
