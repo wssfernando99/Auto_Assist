@@ -11,21 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('employeeId');
+            $table->string('customerId');
             $table->string('userId');
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('contact');
             $table->string('address');
-            $table->string('nic');
-            $table->string('gender');
-            $table->string('dob');
-            $table->string('emImage')->nullable();
-            $table->string('position');
-            $table->string('salary');
-            $table->string('joiningDate');
             $table->bigInteger('isActive')->default(1);
             $table->timestamps();
         });
@@ -36,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('customers');
     }
 };
