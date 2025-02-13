@@ -44,7 +44,7 @@
         </li>
 
 
-        <li class="menu-item {{ Request::is('/userProfile') ? 'active' : '' }}">
+        <li class="menu-item {{ Request::is('userProfile') ? 'active' : '' }}">
             <!-- link -->
             <a href="{{ url('/userProfile') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bi bi-person-fill"></i>

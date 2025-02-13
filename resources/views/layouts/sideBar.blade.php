@@ -16,7 +16,7 @@
     <ul class="menu-inner py-1">
         {{--  Dashboard  --}}
 
-        <li class="menu-item  {{ Request::is('/adminDashboard') ? 'active' : '' }}">
+        <li class="menu-item  {{ Request::is('adminDashboard') ? 'active' : '' }}">
             <a href="{{ url('/adminDashboard') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics" >Back to Dashboard</div>
@@ -48,9 +48,9 @@
         </li>
 
 
-        <li class="menu-item {{ Request::is('productManagement') ? 'active' : '' }}">
+        <li class="menu-item {{ Request::is('customerManagement') ? 'active' : '' }}">
             <!-- link -->
-            <a href="{{ url('/productManagement') }}" class="menu-link text-dark">
+            <a href="{{ url('/customerManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
                 <div data-i18n="Analytics">Customer Details</div>
             </a>
@@ -90,7 +90,7 @@
             <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-iconsbi bi-tools"></i> 
 
-                <div data-i18n="Analytics">Service Roud alerts</div>
+                <div data-i18n="Analytics">Service Roud Alerts</div>
             </a>
         </li>
 
