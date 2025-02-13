@@ -22,18 +22,18 @@
                         {{-- LOGO --}}
                         <div class="d-flex justify-content-center align-items-center">
                             <img src="{{ asset('assets/img/carlogo.png') }}" height="300" alt="">
-                            <h1 class="display-3 text-DARK text-center fw-bold">AUTO ASSIST</h1>
+                            <h1 class="display-3 text-dark text-center fw-bold">AUTO ASSIST</h1>
                         </div>
                         
                         {{-- hero title --}}
                         <div class="d-flex justify-content-center align-items-center">
-                        <h1 class="display-3 text-info text-center fw-bold" id="greetings"></h1>
-                        <h1 class="display-3 text-dark text-center fw-bold"><span class="gradientText">&nbsp;&nbsp;&nbsp;{{ $name }}</span></h1>
+                        <h1 class="display-3 text-dark text-center fw-bold" id="greetings"></h1>
+                        <h1 class="display-3 text-primary text-center fw-bold"><span class="gradientText">&nbsp;&nbsp;&nbsp;{{ $name }}</span></h1>
                         </div>
-                        <hr>
+                       
         
                     </div>
-
+                    <hr>
                     @if (session()->has('message'))
                     <div class="col-md-4">
                           <div class="alert alert-success alert-dismissible" role="alert">

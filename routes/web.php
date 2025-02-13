@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
@@ -39,6 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/editEmployee', [EmployeeController::class, 'EditEmployee']);
     Route::post('/deleteEmployee/{id}', [EmployeeController::class, 'DeleteEmployee']);
 
+    //customer
+    Route::get('/customerManagement', [CustomerController::class, 'CustomerDetails']);
+    Route::post('/addCustomer', [CustomerController::class, 'AddCustomer']);
+    Route::post('/editCustomer', [CustomerController::class, 'EditCustomer']);
 
     
 });
