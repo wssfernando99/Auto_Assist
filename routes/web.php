@@ -44,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/customerManagement', [CustomerController::class, 'CustomerDetails']);
     Route::post('/addCustomer', [CustomerController::class, 'AddCustomer']);
     Route::post('/editCustomer', [CustomerController::class, 'EditCustomer']);
+    Route::get('/customerDetail/{customerId}', [CustomerController::class, 'ViewAll']);
+    Route::post('/anotherVehicle', [CustomerController::class, 'AnotherVehicle']);
 
     
 });

@@ -190,4 +190,90 @@ class CustomerController extends Controller
             return redirect()->back()->with('error','Something went wrong');
         }
     }
+
+    public function ViewAll($customerId){
+
+
+        $customer = Customer::where('customerId',$customerId)
+            ->first();
+
+        $vehicles = Vehicle::where('customerId',$customerId)
+            ->get();
+
+        return view('admin.CustomerManagement.customerDetail',compact('customer','vehicles'));
+    }
+
+    public function AnotherVehicle(Request $request){
+
+        try{
+
+            $request->validate([
+                'abrand' => 'required',
+                'amodelName' => 'required',
+                'ayear' => 'required|numeric|digits:4|',
+                'atype' => 'required',
+                'aengine' => 'required',
+                'anumberPlate' => 'required',
+                'amilage' => 'required|numeric',
+                'aperMilage' => 'required|numeric',
+            ],[
+                'abrand.required' => 'Pleace enter vehicle Brand',
+                'amodelName.required' => 'Pleace enter vehicle Model Name',
+                'ayear.required' => 'Pleace enter vehicle Year',
+                'atype.required' => 'Pleace enter vehicle Type',
+                'aengine.required' => 'Pleace enter vehicle Engine',
+                'anumberPlate.required' => 'Pleace enter vehicle Number Plate',
+                'amilage.required' => 'Pleace enter vehicle Milage',
+                'aperMilage.required' => 'Pleace enter vehicle Milage Per',
+            ]);
+
+            $vehicleId = 'VE_'.random_int(1000000, 9999999);
+
+            if(Vehicle::where('vehicleId','=',$vehicleId)->exists()){
+                $vehicleId = 'VE_'.random_int(1000000, 9999999);
+            }
+
+            $vehicle = new Vehicle();
+            $vehicle->customerId = $request->customer;
+            $vehicle->vehicleId = $vehicleId;
+            $vehicle->vehicleBrand = $request->abrand;
+            $vehicle->vehicleModel = $request->amodelName;
+            $vehicle->vehicleYear = $request->ayear;
+            $vehicle->vehicleType = $request->atype;
+            $vehicle->engineType = $request->aengine;
+            $vehicle->numberPlate = $request->anumberPlate;
+            $vehicle->milage = $request->amilage;
+            $vehicle->milagePer = $request->aperMilage;
+
+            if($request->has('check')){
+                $vehicle->check = 1;
+            }else{
+                $vehicle->check = 0;
+            }
+            $vehicle->isActive = 1;
+            $vehicle->save();
+
+            $maintenance = new Maintenance();
+            $maintenance->vehicleId = $vehicleId;
+            $maintenance->totalMilage = $request->amilage;
+            $maintenance->lastService = $request->amilage;
+            $maintenance->lastBrake = $request->amilage;
+            $maintenance->lastOil = $request->amilage;
+            $maintenance->lastEngine = $request->amilage;
+            $maintenance->isActive = 1;
+            $maintenance->save();
+
+            return redirect()->back()->with('message','Vehicle added successfully');
+
+
+
+        }catch(ValidationException $e){
+            throw $e;
+        }catch(Exception $e){
+            return redirect()->back()->with('error','Something went wrong');
+        }
+
+        
+    }
+        
 }
