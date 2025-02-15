@@ -24,7 +24,7 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     @if (session()->has('message'))
-                    <div class="col-md-4">
+                    <div class="col-md-4 msg">
                           <div class="alert alert-success alert-dismissible" role="alert">
                             <h6 class="alert-heading d-flex align-items-center mb-1">Completed:</h6>
                             <p class="mb-0">{{ session()->get('message') }}</p>
@@ -36,7 +36,7 @@
 
                     @if (session()->has('error'))
                     
-                        <div class="col-md-4">
+                        <div class="col-md-4 msg">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
                                 <p class="mb-0">{{ session()->get('error') }}</p>
@@ -112,7 +112,8 @@
                                                             <i class="bi bi-plus-circle-fill"></i> Add another Vehicle</a>
                                                     
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-bs-target="#delete-modal{{ $customer->id }}"><i
+                                                        data-bs-toggle="modal" data-bs-target="#deleteCustomer-modal" data-customerid="{{ $customer->customerId }}"
+                                                        data-name="{{ $customer->name }}"><i
                                                             class="bx bx-trash me-1"></i> Delete</a>
 
                                                     <a class="dropdown-item" href="{{ url('/customerDetail/'.$customer->customerId) }}">
@@ -139,7 +140,10 @@
             @include('admin.customerManagement.modals.createModal')
             @include('admin.customerManagement.modals.edit-modal')
             @include('admin.customerManagement.modals.add-modal')
+            @include('admin.customerManagement.modals.deleteCustomer-modal')
 
+            
+            
 
             <script>
                 $(document).ready(function () {
@@ -180,6 +184,20 @@
                     
                 });
 
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#deleteCustomer-modal').on('show.bs.modal', function (event) {
+                        let button = $(event.relatedTarget); // Button that triggered the modal
+                        let customerId = button.data('customerid');
+                        let name = button.data('name');
+
+                        let modal = $(this);
+                        modal.find('#customerId').val(customerId);
+                        modal.find('#name').text(name);
+                    });
+                });
             </script>
 
            
