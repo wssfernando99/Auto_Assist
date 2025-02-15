@@ -49,5 +49,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/editVehicle', [CustomerController::class, 'EditVehicle']);
     Route::post('/updateMaintenance', [CustomerController::class, 'UpdateMaintenance']);
     Route::post('/deleteVehicle', [CustomerController::class, 'DeleteVehicle']);
+    Route::post('/deleteCustomer', [CustomerController::class, 'DeleteCustomer']);
     
 });

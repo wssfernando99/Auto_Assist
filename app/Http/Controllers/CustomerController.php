@@ -33,12 +33,12 @@ class CustomerController extends Controller
 
     public function AddCustomer(Request $request){
 
-        try{
+        // try{
 
             $request->validate([
                 'name' => 'required',
                 'email' => 'nullable|email|unique:customers,email',
-                'contact' => 'required|unique:customers,contact:digits:10|regex:/^[0-9]{10}$/',
+                'contact' => 'required|unique:customers,contact|regex:/^[0-9]{10}$/|digits:10',
                 'address' => 'required',
                 'brand' => 'required',
                 'modelName' => 'required',
@@ -133,11 +133,11 @@ class CustomerController extends Controller
 
 
 
-        }catch(ValidationException $e){
-            throw $e;
-        }catch(Exception $e){
-            return redirect()->back()->with('error','Something went wrong');
-        }
+        // }catch(ValidationException $e){
+        //     throw $e;
+        // }catch(Exception $e){
+        //     return redirect()->back()->with('error','Something went wrong');
+        // }
         
     }
 
@@ -385,6 +385,36 @@ class CustomerController extends Controller
             ]);
 
             return redirect()->back()->with('message','Vehicle deleted successfully');
+
+        }catch(ValidationException $e){
+            throw $e;
+        }catch(Exception $e){
+            return redirect()->back()->with('error','Something went wrong');
+        }
+    }
+
+    public function DeleteCustomer(Request $request){
+
+        try{
+
+
+            Customer::where(['customerId' => $request->customerId])->update([
+                'isActive' => 0,
+            ]);
+
+            $vehicle = Vehicle::where('customerId', $request->customerId)->pluck('vehicleId');
+
+            Vehicle::where(['customerId' => $request->customerId])->update([
+                'isActive' => 0,
+            ]);
+
+            foreach($vehicle as $vehicleId){
+                Maintenance::where(['vehicleId' => $vehicleId])->update([
+                    'isActive' => 0,
+                ]);
+            };
+
+            return redirect()->back()->with('message','Customer deleted successfully');
 
         }catch(ValidationException $e){
             throw $e;
