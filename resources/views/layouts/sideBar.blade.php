@@ -55,8 +55,8 @@
                 <div data-i18n="Analytics">Customer Details</div>
             </a>
         </li>
-        <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
-            <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
+        <li class="menu-item {{ Request::is('vehicleManagement') ? 'active' : '' }}">
+            <a href="{{ url('/vehicleManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bi bi-car-front-fill"></i>
                 <div data-i18n="Analytics">Vehicle Details</div>
             </a>
