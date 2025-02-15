@@ -56,6 +56,14 @@
                     $('#myTable').DataTable();
                 });
             </script>
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".msg").fadeOut("slow");
+        }, 3000);
+    });
+</script>
     
     
 

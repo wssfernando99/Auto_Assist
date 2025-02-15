@@ -24,7 +24,7 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     @if (session()->has('message'))
-                    <div class="col-md-4">
+                    <div class="col-md-4 msg">
                           <div class="alert alert-success alert-dismissible" role="alert">
                             <h6 class="alert-heading d-flex align-items-center mb-1">Completed:</h6>
                             <p class="mb-0">{{ session()->get('message') }}</p>
@@ -36,7 +36,7 @@
 
                     @if (session()->has('error'))
                     
-                        <div class="col-md-4">
+                        <div class="col-md-4 msg">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
                                 <p class="mb-0">{{ session()->get('error') }}</p>
@@ -93,7 +93,7 @@
                                             {{ $customer->userName }}
                                         </td>
                                         
-                                        <td >
+                                        <td>
                                             <div class="dropdown z-50">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                                     data-bs-toggle="dropdown">
@@ -108,14 +108,19 @@
                                                             class="bx bx-edit-alt me-1"></i>Edit</a>
 
                                                     <a class="dropdown-item" href="javascript:void(0);"
-                                                            data-bs-toggle="modal" data-bs-target="#delete-modal{{ $customer->id }}">
+                                                            data-bs-toggle="modal" data-bs-target="#add-modal" data-id="{{ $customer->id }}" data-customerid="{{ $customer->customerId }}">
                                                             <i class="bi bi-plus-circle-fill"></i> Add another Vehicle</a>
                                                     
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-bs-target="#delete-modal{{ $customer->id }}"><i
+                                                        data-bs-toggle="modal" data-bs-target="#deleteCustomer-modal" data-customerid="{{ $customer->customerId }}"
+                                                        data-name="{{ $customer->name }}"><i
                                                             class="bx bx-trash me-1"></i> Delete</a>
+
+                                                    <a class="dropdown-item" href="{{ url('/customerDetail/'.$customer->customerId) }}">
+                                                                <i class="bi bi-arrow-right-square-fill me-1"></i>All Details</a>        
                                                 </div>
                                             </div>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach
@@ -134,7 +139,11 @@
 
             @include('admin.customerManagement.modals.createModal')
             @include('admin.customerManagement.modals.edit-modal')
+            @include('admin.customerManagement.modals.add-modal')
+            @include('admin.customerManagement.modals.deleteCustomer-modal')
 
+            
+            
 
             <script>
                 $(document).ready(function () {
@@ -159,6 +168,38 @@
         
             </script>
 
+            <script>
+                $(document).ready(function () {
+                    $('#add-modal').on('show.bs.modal', function (event) {
+                        let button = $(event.relatedTarget); // Button that triggered the modal
+                        let id = button.data('id');
+                        let customerId = button.data('customerid');
+
+                        let modal = $(this);
+                        modal.find('#id').val(id);
+                        modal.find('#customer').val(customerId);
+                        modal.find('#customeri').text(customerId);
+                    
+                    });
+                    
+                });
+
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#deleteCustomer-modal').on('show.bs.modal', function (event) {
+                        let button = $(event.relatedTarget); // Button that triggered the modal
+                        let customerId = button.data('customerid');
+                        let name = button.data('name');
+
+                        let modal = $(this);
+                        modal.find('#customerId').val(customerId);
+                        modal.find('#name').text(name);
+                    });
+                });
+            </script>
+
            
 
 
@@ -177,6 +218,17 @@
             <script>
             document.addEventListener("DOMContentLoaded", function () {
                 let modal = new bootstrap.Modal(document.getElementById('edit-modal'));
+                modal.show();
+            });
+        
+            </script>
+            @endif
+
+            @if($errors->has('abrand') || $errors->has('amodel') || 
+            $errors->has('ayear') || $errors->has('atype') || $errors->has('aengine') || $errors->has('anumberPlate') || $errors->has('amilage') || $errors->has('aperMilage'))
+            <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let modal = new bootstrap.Modal(document.getElementById('add-modal'));
                 modal.show();
             });
         

@@ -25,7 +25,7 @@
 
                     </div>
                     @if (session()->has('message'))
-                    <div class="col-md-4">
+                    <div class="col-md-4 msg">
                           <div class="alert alert-success alert-dismissible" role="alert">
                             <h6 class="alert-heading d-flex align-items-center mb-1">Completed:</h6>
                             <p class="mb-0">{{ session()->get('message') }}</p>
@@ -37,7 +37,7 @@
 
                     @if (session()->has('error'))
                     
-                        <div class="col-md-4">
+                        <div class="col-md-4 msg">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
                                 <p class="mb-0">{{ session()->get('error') }}</p>
