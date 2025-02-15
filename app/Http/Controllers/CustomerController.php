@@ -197,7 +197,8 @@ class CustomerController extends Controller
         $customer = Customer::where('customerId',$customerId)
             ->first();
 
-        $vehicles = Vehicle::where('customerId',$customerId)
+        $vehicles = Vehicle::join('maintenances','vehicles.vehicleId','=','maintenances.vehicleId')
+            ->where('vehicles.customerId',$customerId)
             ->get();
 
         return view('admin.CustomerManagement.customerDetail',compact('customer','vehicles'));
@@ -274,6 +275,101 @@ class CustomerController extends Controller
         }
 
         
+    }
+
+    public function EditVehicle(Request $request){
+
+        try{
+
+            $request->validate([
+                'abrand' => 'required',
+                'amodelName' => 'required',
+                'ayear' => 'required|numeric|digits:4|',
+                'atype' => 'required',
+                'aengine' => 'required',
+                'anumberPlate' => 'required',
+                'amilage' => 'required|numeric',
+                'aperMilage' => 'required|numeric',
+            ],[
+                'abrand.required' => 'Pleace enter vehicle Brand',
+                'amodelName.required' => 'Pleace enter vehicle Model Name',
+                'ayear.required' => 'Pleace enter vehicle Year',
+                'atype.required' => 'Pleace enter vehicle Type',
+                'aengine.required' => 'Pleace enter vehicle Engine',
+                'anumberPlate.required' => 'Pleace enter vehicle Number Plate',
+                'amilage.required' => 'Pleace enter vehicle Milage',
+                'aperMilage.required' => 'Pleace enter vehicle Milage Per',
+            ]);
+
+            if($request->has('check')){
+                $check = 1;
+            }else{
+                $check = 0;
+            }
+
+            Vehicle::where(['vehicleId' => $request->vehicleId])->update([
+                'vehicleBrand' => $request->abrand,
+                'vehicleModel' => $request->amodelName,
+                'vehicleYear' => $request->ayear,
+                'vehicleType' => $request->atype,
+                'engineType' => $request->aengine,
+                'numberPlate' => $request->anumberPlate,
+                'milage' => $request->amilage,
+                'milagePer' => $request->aperMilage,
+                'check' => $check,
+            ]);
+
+            Maintenance::where(['vehicleId' => $request->vehicleId])->update([
+                'totalMilage' => $request->amilage,
+            ]);
+
+            return redirect()->back()->with('message','Vehicle updated successfully');
+
+
+
+        }catch(ValidationException $e){
+            throw $e;
+        }catch(Exception $e){
+            return redirect()->back()->with('error','Something went wrong');
+        }
+    }
+
+    public function UpdateMaintenance(Request $request){
+        try{
+
+            $request->validate([
+                'milage' => 'required|numeric',
+                'lService' => 'required|numeric',
+                'lBrake' => 'required|numeric',
+                'lOil' => 'required|numeric',
+                'lEngine' => 'required|numeric',
+            ],[
+                'milage.required' => 'Pleace enter total Milage',
+                'lService.required' => 'Pleace enter last Service Milage',
+                'lBrake.required' => 'Pleace enter last Brake Milage',
+                'lOil.required' => 'Pleace enter last Oil Milage',
+                'lEngine.required' => 'Pleace enter last Engine Milage',
+            ]);
+
+            Maintenance::where(['vehicleId' => $request->vehicleId])->update([
+                'totalMilage' => $request->milage,
+                'lastService' => $request->lService,
+                'lastBrake' => $request->lBrake,
+                'lastOil' => $request->lOil,
+                'lastEngine' => $request->lEngine,
+            ]);
+
+            Vehicle::where(['vehicleId' => $request->vehicleId])->update([
+                'milage' => $request->milage,
+            ]);
+
+            return redirect()->back()->with('message','Maintenance updated successfully');
+
+        }catch(ValidationException $e){
+            throw $e;
+        }catch(Exception $e){
+            return redirect()->back()->with('error','Something went wrong');
+        }
     }
         
 }

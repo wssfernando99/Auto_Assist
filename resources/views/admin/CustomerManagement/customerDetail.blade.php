@@ -92,7 +92,7 @@
                                 <div class="col-md-12"><h4>Vehicles</h4></div>
                                 @foreach ($vehicles as $vehicle )
 
-                                <div class="col-md-6 m-2">
+                                <div class="col-md-6">
 
                                     <table class="table table-bordered ">
                                         <tr>
@@ -117,11 +117,23 @@
                                             <th>Vehicle Year</th>
                                             <td>{{ $vehicle->vehicleYear }}</td>
                                             <th>Total Milage</th>
-                                            <td>{{ $vehicle->milage }}</td>
+                                            <td>{{ $vehicle->milage }} </td>
                                         </tr>
                                         <tr>
                                             <th colspan="4">
-                                                <button class="btn btn-outline-dark">Show More+ & Edit</button>
+                                                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editVehicle-modal"
+                                                    data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}" data-brand="{{ $vehicle->vehicleBrand }}" 
+                                                    data-type="{{ $vehicle->vehicleType }}" data-model="{{ $vehicle->vehicleModel }}" data-engine="{{ $vehicle->engineType }}" 
+                                                    data-plate="{{ $vehicle->numberPlate }}" data-year="{{ $vehicle->vehicleYear }}" data-milage="{{ $vehicle->milage }}"
+                                                    data-per="{{ $vehicle->milagePer }}" data-check="{{ $vehicle->check }}">
+                                                <i class="bx bx-edit-alt me-1"></i>Edit</button>
+
+                                                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#maintenance-modal"  data-vehicleid="{{ $vehicle->vehicleId }}"
+                                                    data-milage="{{ $vehicle->totalMilage }}" data-lservice="{{ $vehicle->lastService }}" data-lbrake="{{ $vehicle->lastBrake }}" data-loil="{{ $vehicle->lastOil }}"
+                                                    data-lengine="{{ $vehicle->lastEngine }}">
+                                                <i class="bi bi-capslock-fill me-1"></i>Update Maintenance</button>
+
+                                                <button class="btn btn-outline-danger"><i class="bx bx-trash me-1"></i>Delete</button>
                                             </th>
                                         </tr>
                                     </table>
@@ -144,26 +156,39 @@
             
 
 
-            @include('admin.customerManagement.modals.createModal')
-            @include('admin.customerManagement.modals.edit-modal')
+            @include('admin.customerManagement.modals.editVehicle-modal')
+            @include('admin.customerManagement.modals.maintenance-modal')
 
 
             <script>
                 $(document).ready(function () {
-                    $('#edit-modal').on('show.bs.modal', function (event) {
+                    $('#editVehicle-modal').on('show.bs.modal', function (event) {
                         let button = $(event.relatedTarget); // Button that triggered the modal
                         let id = button.data('id');
-                        let name = button.data('name');
-                        let email = button.data('email');
-                        let contact = button.data('contact');
-                        let address = button.data('address');
+                        let vehicleId = button.data('vehicleid');
+                        let brand = button.data('brand');
+                        let type = button.data('type');
+                        let model = button.data('model');
+                        let engine = button.data('engine');
+                        let plate = button.data('plate');
+                        let year = button.data('year');
+                        let milage = button.data('milage');
+                        let milagePer = button.data('per');
+                        let check = button.data('check');
         
                         let modal = $(this);
                         modal.find('#id').val(id);
-                        modal.find('#name').val(name);
-                        modal.find('#email').val(email);
-                        modal.find('#contact').val(contact);
-                        modal.find('#address').val(address);
+                        modal.find('#vehicleId').val(vehicleId);
+                        modal.find('#brand').val(brand);
+                        modal.find('#type').val(type);
+                        modal.find('#modelName').val(model);
+                        modal.find('#engine').val(engine);
+                        modal.find('#numberPlate').val(plate);
+                        modal.find('#year').val(year);
+                        modal.find('#milage').val(milage);
+                        modal.find('#perMilage').val(milagePer);
+                        modal.find('#check').prop('checked', check == 1);
+
                     
                     });
                     
@@ -171,29 +196,56 @@
         
             </script>
 
-           
 
+            <script>
+                $(document).ready(function () {
+                    $('#maintenance-modal').on('show.bs.modal', function (event) {
+                        let button = $(event.relatedTarget); 
+                        let vehicleId = button.data('vehicleid');
+                        let milage = button.data('milage');
+                        let lService = button.data('lservice');
+                        let lBrake = button.data('lbrake');
+                        let lOil = button.data('loil');
+                        let lEngine = button.data('lengine');
 
-            @if($errors->has('name') || $errors->has('email') || $errors->has('contact') || $errors->has('address') || $errors->has('brand') || $errors->has('model') || 
-            $errors->has('year') || $errors->has('type') || $errors->has('engine') || $errors->has('numberPlate') || $errors->has('milage') || $errors->has('perMilage'))
+                        let modal = $(this);
+                        modal.find('#vehicleId').val(vehicleId);
+                        modal.find('#milage').val(milage);
+                        modal.find('#lService').val(lService);
+                        modal.find('#lBrake').val(lBrake);
+                        modal.find('#lOil').val(lOil);
+                        modal.find('#lEngine').val(lEngine);
+
+                    
+                    });
+                    
+                });
+
+            </script>
+
+            @if($errors->has('abrand') || $errors->has('amodel') || 
+            $errors->has('ayear') || $errors->has('atype') || $errors->has('aengine') || $errors->has('anumberPlate') || $errors->has('amilage') || $errors->has('aperMilage'))
             <script>
             document.addEventListener("DOMContentLoaded", function () {
-                let modal = new bootstrap.Modal(document.getElementById('create-modal'));
+                let modal = new bootstrap.Modal(document.getElementById('editVehicle-modal'));
                 modal.show();
             });
-        
+
             </script>
             @endif
 
-            @if($errors->has('ename') || $errors->has('eemail') || $errors->has('econtact') ||  $errors->has('eaddress'))
+            @if($errors->has('milage') || $errors->has('lEngine') || $errors->has('lService') || $errors->has('lOil') || $errors->has('lBrake'))
             <script>
             document.addEventListener("DOMContentLoaded", function () {
-                let modal = new bootstrap.Modal(document.getElementById('edit-modal'));
+                let modal = new bootstrap.Modal(document.getElementById('maintenance-modal'));
                 modal.show();
             });
-        
+
             </script>
             @endif
+
+
+            
 
             @else
             <div class="container mt-4">
