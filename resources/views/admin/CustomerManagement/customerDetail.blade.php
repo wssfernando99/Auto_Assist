@@ -133,7 +133,8 @@
                                                     data-lengine="{{ $vehicle->lastEngine }}">
                                                 <i class="bi bi-capslock-fill me-1"></i>Update Maintenance</button>
 
-                                                <button class="btn btn-outline-danger"><i class="bx bx-trash me-1"></i>Delete</button>
+                                                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteVehicle-modal"  data-vehicleid="{{ $vehicle->vehicleId }}">
+                                                <i class="bx bx-trash me-1"></i>Delete</button>
                                             </th>
                                         </tr>
                                     </table>
@@ -158,7 +159,23 @@
 
             @include('admin.customerManagement.modals.editVehicle-modal')
             @include('admin.customerManagement.modals.maintenance-modal')
+            @include('admin.customerManagement.modals.deleteVehicle-modal')
 
+
+            <script>
+                $(document).ready(function () {
+                    $('#deleteVehicle-modal').on('show.bs.modal', function (event) {
+                        let button = $(event.relatedTarget);
+                        let vehicleId = button.data('vehicleid');
+
+                        let modal = $(this);
+                        modal.find('#vehicleId').val(vehicleId);
+                    
+                    });
+                    
+                });
+
+            </script>
 
             <script>
                 $(document).ready(function () {
@@ -222,6 +239,8 @@
                 });
 
             </script>
+
+            
 
             @if($errors->has('abrand') || $errors->has('amodel') || 
             $errors->has('ayear') || $errors->has('atype') || $errors->has('aengine') || $errors->has('anumberPlate') || $errors->has('amilage') || $errors->has('aperMilage'))

@@ -199,6 +199,7 @@ class CustomerController extends Controller
 
         $vehicles = Vehicle::join('maintenances','vehicles.vehicleId','=','maintenances.vehicleId')
             ->where('vehicles.customerId',$customerId)
+            ->where('vehicles.isActive',1)
             ->get();
 
         return view('admin.CustomerManagement.customerDetail',compact('customer','vehicles'));
@@ -371,5 +372,24 @@ class CustomerController extends Controller
             return redirect()->back()->with('error','Something went wrong');
         }
     }
-        
+
+    public function DeleteVehicle(Request $request){
+        try{
+
+            Vehicle::where(['vehicleId' => $request->vehicleId])->update([
+                'isActive' => 0,
+            ]);
+
+            Maintenance::where(['vehicleId' => $request->vehicleId])->update([
+                'isActive' => 0,
+            ]);
+
+            return redirect()->back()->with('message','Vehicle deleted successfully');
+
+        }catch(ValidationException $e){
+            throw $e;
+        }catch(Exception $e){
+            return redirect()->back()->with('error','Something went wrong');
+        }
+    }
 }
