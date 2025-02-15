@@ -59,7 +59,6 @@
 
 <script>
     $(document).ready(function () {
-        // Hide the alert after 5 seconds (5000ms)
         setTimeout(function () {
             $(".msg").fadeOut("slow");
         }, 3000);
