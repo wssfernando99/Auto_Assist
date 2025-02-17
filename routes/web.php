@@ -54,5 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
     
     //Vehicle
     Route::get('/vehicleManagement', [VehicleController::class, 'VehicleDetails']);
+    Route::post('/checkIn', [VehicleController::class, 'CheckIn']);
+    Route::get('/checkInVehicles', [VehicleController::class, 'CheckInVehicles']);
+    Route::post('/cancelCheckIn', [VehicleController::class, 'CancelCheckIn']);
     
 });
