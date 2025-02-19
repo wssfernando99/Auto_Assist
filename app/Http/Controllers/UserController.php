@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -65,6 +66,8 @@ class UserController extends Controller
             session()->forget('profileImage');
 
             session()->flush();
+
+            Cache::flush();
 
             return redirect('/');
         } catch (Exception $e) {
