@@ -33,7 +33,7 @@ class CustomerController extends Controller
 
     public function AddCustomer(Request $request){
 
-        // try{
+        try{
 
             $request->validate([
                 'name' => 'required',
@@ -133,11 +133,11 @@ class CustomerController extends Controller
 
 
 
-        // }catch(ValidationException $e){
-        //     throw $e;
-        // }catch(Exception $e){
-        //     return redirect()->back()->with('error','Something went wrong');
-        // }
+        }catch(ValidationException $e){
+            throw $e;
+        }catch(Exception $e){
+            return redirect()->back()->with('error','Something went wrong');
+        }
         
     }
 

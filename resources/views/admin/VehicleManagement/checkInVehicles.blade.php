@@ -105,8 +105,7 @@
                                                 </button>
                                                 <div class="dropdown-menu">
 
-                                                    <a class="dropdown-item text-success" href="javascript:void(0);"
-                                                            data-bs-toggle="modal" data-bs-target="#add-modal" data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}">
+                                                    <a class="dropdown-item text-success" href="{{ url('/getcheckOutVehicle/' . $vehicle->vehicleId) }}">
                                                             <i class="bi bi-clipboard-check-fill me-1"></i>Check Out</a>
 
                                                     <a class="dropdown-item text-warning" href="javascript:void(0);"

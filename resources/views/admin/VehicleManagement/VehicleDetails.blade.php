@@ -116,10 +116,17 @@
                                                     <a class="dropdown-item" href="javascript:void(0);"
                                                             data-bs-toggle="modal" data-bs-target="#add-modal" data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}">
                                                             <i class="bi bi-clipboard2-data me-1"></i>Past Records</a>
-
+                                                    @if ($vehicle->checkIn == 0)
                                                     <a class="dropdown-item" href="javascript:void(0);"
-                                                            data-bs-toggle="modal" data-bs-target="#check-modal" data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}">
-                                                            <i class="bi bi-clipboard2-plus me-1"></i>Check In</a>
+                                                    data-bs-toggle="modal" data-bs-target="#check-modal" data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}">
+                                                    <i class="bi bi-clipboard2-plus me-1"></i>Check In</a>
+                                                    @else
+                                                    <a class="dropdown-item" href="#"
+                                                            >
+                                                            <i class="bi bi-exclamation-lg"></i>Already Check In</a>
+                                                        
+                                                    @endif
+                                                    
                                                     
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
                                                         data-bs-toggle="modal" data-bs-target="#deletevehicle-modal" data-vehicleid="{{ $vehicle->vehicleId }}"
