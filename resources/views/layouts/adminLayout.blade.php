@@ -51,19 +51,19 @@
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
-            <script>
-                $(document).ready(function() {
-                    $('#myTable').DataTable();
-                });
-            </script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+    </script>
 
-<script>
-    $(document).ready(function () {
-        setTimeout(function () {
-            $(".msg").fadeOut("slow");
-        }, 3000);
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".msg").fadeOut("slow");
+            }, 3000);
+        });
+    </script>
     
     
 

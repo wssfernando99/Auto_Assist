@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -50,5 +51,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/updateMaintenance', [CustomerController::class, 'UpdateMaintenance']);
     Route::post('/deleteVehicle', [CustomerController::class, 'DeleteVehicle']);
     Route::post('/deleteCustomer', [CustomerController::class, 'DeleteCustomer']);
+    
+    //Vehicle
+    Route::get('/vehicleManagement', [VehicleController::class, 'VehicleDetails']);
+    Route::post('/checkIn', [VehicleController::class, 'CheckIn']);
+    Route::get('/checkInVehicles', [VehicleController::class, 'CheckInVehicles']);
+    Route::post('/cancelCheckIn', [VehicleController::class, 'CancelCheckIn']);
+    Route::get('/getcheckOutVehicle/{vehicleId}', [VehicleController::class, 'GetCheckOut']);
+
+    //CheckOut Invoice
+    Route::post('/itemInvoice', [VehicleController::class, 'ItemInvoice']);
+    Route::get('/cancelCheckOut', [VehicleController::class, 'CancelCheckOut']);
+    Route::get('/removeItem/{id}', [VehicleController::class, 'RemoveItem']);
     
 });
