@@ -63,5 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/itemInvoice', [VehicleController::class, 'ItemInvoice']);
     Route::get('/cancelCheckOut', [VehicleController::class, 'CancelCheckOut']);
     Route::get('/removeItem/{id}', [VehicleController::class, 'RemoveItem']);
+    Route::post('/completeCheckOut', [VehicleController::class, 'CompleteCheckOut']);
+    Route::get('/printCheckOut/{vehicleId}/{serviceId}', [VehicleController::class, 'PrintCheckOut']);
     
 });
