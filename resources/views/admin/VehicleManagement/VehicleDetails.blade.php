@@ -126,6 +126,18 @@
                                                             <i class="bi bi-exclamation-lg"></i>Already Check In</a>
                                                         
                                                     @endif
+                                                    @if ($vehicle->vin == null)
+                                                    <a class="dropdown-item" href="#"
+                                                        ><i
+                                                            class="bx bx-trash me-1"></i> Specs feature unavailable</a>
+                                                        
+                                                    @else
+                                                    <a class="dropdown-item" href="{{ url('/vehicleDetails/'.$vehicle->id) }}"
+                                                        ><i
+                                                            class="bx bx-trash me-1"></i> Specs</a>
+                                                        
+                                                    @endif
+                                                    
                                                     
                                                     
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"

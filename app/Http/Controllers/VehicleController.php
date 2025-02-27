@@ -14,9 +14,19 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Services\VehicleService;
+
 
 class VehicleController extends Controller
 {
+
+    protected $vehicleService;
+
+    public function __construct(VehicleService $vehicleService)
+    {
+        $this->vehicleService = $vehicleService;
+    }
+
     public function VehicleDetails(){
 
         try{
@@ -322,6 +332,21 @@ class VehicleController extends Controller
 
         return view('admin.VehicleManagement.printCheckOut',compact('invoice','invoiceItems','service','serviceDetails'));
 
+    }
+
+    public function getVehicleDetails($id)
+    {
+
+        $vehicle = Vehicle::where('id',$id)
+            ->first();
+
+        $vin = $vehicle->vin; 
+
+        $data = $this->vehicleService->getVehicleDetails($vin);
+
+        dd($data);
+
+        return response()->json($data);
     }
         
 }
