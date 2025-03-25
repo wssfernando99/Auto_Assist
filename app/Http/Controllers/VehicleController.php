@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Services\VehicleService;
-
+use Pest\ArchPresets\Custom;
 
 class VehicleController extends Controller
 {
@@ -347,6 +347,21 @@ class VehicleController extends Controller
         dd($data);
 
         return response()->json($data);
+    }
+
+    public function PastRecords($vehicleId){
+
+        $data = Service::where('isActive',1)
+            ->where('vehicleId',$vehicleId)
+            ->orderby('created_at','desc')
+            ->get();
+
+        $vehicle = Vehicle::join('customers','vehicles.customerId','=','customers.customerId')
+            ->select('vehicles.*','customer.name')
+            ->where('vehicleId',$vehicleId)
+            ->first();
+
+        return view('admin.VehicleManagement.VehiclePastRecords',compact('data', 'vehicle'));
     }
         
 }
