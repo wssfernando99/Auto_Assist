@@ -62,91 +62,30 @@
                             <table id="myTable" class="table">
                                 <thead>
                                     <tr>
-                                        <th>Vehicle Id</th>
-                                        <th>Vehicle Number Plate</th>
-                                        <th>Vehicle Brand</th>
-                                        <th>Vehicle Model</th>
-                                        <th>Manfactured Year</th>
-                                        <th>Vehicle Type</th>
+                                        <th>Service Id</th>
+                                        <th>Service Date</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                     @if (count($data) == 0)
                                         <tr>
-                                            <td colspan="7" class="text-center">No Data Available</td>
+                                            <td colspan="3" class="text-center">No Data Available</td>
                                         </tr>
                                     @endif
                                     @foreach ($data as $vehicle )
                                     <tr>
                                         <td>
-                                            {{ $vehicle->vehicleId }}
+                                            {{ $vehicle->serviceId }}
                                         </td>
                                         <td>
-                                            {{ $vehicle->numberPlate }}
-                                        </td>
-                                        
-                                        <td>
-                                            {{ $vehicle->vehicleBrand }}
-                                        </td>
-                                        <td>
-                                            {{ $vehicle->vehicleModel }}
-                                        </td>
-                                        <td>
-                                            {{ $vehicle->vehicleYear }}
-                                        </td>
-                                        <td>
-                                            {{ $vehicle->vehicleType }}
+                                            {{ $vehicle->serviceDate }}
                                         </td>
                                         
+                                        
                                         <td>
-                                            <div class="dropdown z-50">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                    data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    
-                                                    <a class="dropdown-item" href="javascript:void(0)"
-                                                        data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="{{ $vehicle->id }}" data-name="{{ $vehicle->name }}"
-                                                        data-email="{{ $vehicle->email }}" data-contact="{{ $vehicle->contact }}"  data-address="{{ $vehicle->address }}" 
-                                                        ><i
-                                                            class="bx bx-edit-alt me-1"></i>Edit & view</a>
-
-                                                    <a class="dropdown-item" href="{{ url('/pastRecords/'.$vehicle->vehicleId) }}">
-                                                            <i class="bi bi-clipboard2-data me-1"></i>Past Records</a>
-                                                    @if ($vehicle->checkIn == 0)
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                    data-bs-toggle="modal" data-bs-target="#check-modal" data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}">
-                                                    <i class="bi bi-clipboard2-plus me-1"></i>Check In</a>
-                                                    @else
-                                                    <a class="dropdown-item" href="#"
-                                                            >
-                                                            <i class="bi bi-exclamation-lg"></i>Already Check In</a>
-                                                        
-                                                    @endif
-                                                    @if ($vehicle->vin == null)
-                                                    <a class="dropdown-item" href="#"
-                                                        ><i
-                                                            class="bx bx-trash me-1"></i> Specs feature unavailable</a>
-                                                        
-                                                    @else
-                                                    <a class="dropdown-item" href="{{ url('/vehicleDetails/'.$vehicle->id) }}"
-                                                        ><i
-                                                            class="bx bx-trash me-1"></i> Specs</a>
-                                                        
-                                                    @endif
-                                                    
-                                                    
-                                                    
-                                                    <a class="dropdown-item text-danger" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-bs-target="#deletevehicle-modal" data-vehicleid="{{ $vehicle->vehicleId }}"
-                                                        data-name="{{ $vehicle->name }}"><i
-                                                            class="bx bx-trash me-1"></i> Delete</a>
-       
-                                                </div>
-                                            </div>
-                                            
+                                            <button class="btn btn-primary btn-sm">View Record</button>
+                                            <button class="btn btn-secondary btn-sm">Print Record</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -273,4 +212,4 @@
         </div>
     </div>
 
-    @endsection
+@endsection

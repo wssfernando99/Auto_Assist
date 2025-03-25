@@ -60,9 +60,11 @@
                     <div class="d-flex justify-content-between  py-3 mb-4">
                         <h4 class="fw-bold"><span class="text-muted fw-light"></span>Vehicle Management<i class="bi bi-arrow-right"></i> Checked In Vehicles <i class="bi bi-arrow-right"></i> Checked Out</h4>
                         
-                        <a href="{{ url('/cancelCheckOut') }}" class="btn btn-secondary" >
+                        <a href="{{ url('/checkInVehicles') }}" class="btn btn-secondary" >
                             Back
                         </a>
+                        <button onclick="printInvoice()" class="btn btn-primary">Print Invoice</button>
+
                     </div>
 
                     <div class="card">
@@ -115,7 +117,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-7">
-                                    <div class="card">
+                                    <div class="card" id="invoicePrintArea">
                                         <div class="card-body">
                                         <div class="invoice-header">
                                             <h2>INVOICE</h2>
@@ -130,7 +132,7 @@
                                                 </div>
                                                 <div class="col-md-6 text-end">
                                                     <h5 class="bg-primary text-white p-2">Invoice To:</h5>
-                                                    <p>{{ $customer }}</p>
+                                                    <p>{{ $customer->name }}</p>
                                                 </div>
                                             </div>
                                             <table class="table mt-3">
@@ -190,7 +192,81 @@
                                     
 
                                 </div>
+                                <form  action="{{url('/completeCheckOut')}}" method="post" novalidate enctype="multipart/form-data">
+                                    {{csrf_field()}}
+                                <div class="col-md-12">
+                                    <div class="card mt-3">
+                                        <div class="card-body">
+                                                            
+                                                <div class="modal-body">
+                                
+                                                    <input type="text" name="vehicleId" id="vehicleId" value="{{ $vehicle->vehicleId }}" hidden>
+                                                    <input type="text" name="invoiceDate" id="invoiceDate" value="{{ $date }}" hidden>
+                                                    <input type="text" name="customerId" id="customerId" value="{{ $customer->customerId }}" hidden>
+                                                    <input type="text" name="subTotal" id="subTotal" value="{{ $subTotal }}" hidden>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-md-12 mb-3"><h4>Update Vehicle Maintenance Records</h4></div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <label class="form-label" for="basic-default-fullname">Update Total Milage<span class="text-danger">*</span></label>
+                                                            <input type="number" class="form-control @error('milage') is-invalid @enderror" placeholder="" name="milage" id="milage"  value="{{ old('milage', $vehicle->milage) }}" />
+                                                            @error('milage')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <label class="form-label" for="basic-default-company">Update last Service Milage<span class="text-danger">*</span></label>
+                                                            <input type="number" class="form-control @error('lservice') is-invalid @enderror"  placeholder=""   id="lService" name="lService"  value="{{ old('lservice',$maintenance->lastService) }}" />
+                                                            @error('lService')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <label class="form-label" for="basic-default-email">Update Last Brake Checked Milage<span class="text-danger">*</span></label>
+                                                            <input type="number" class="form-control @error('lBrake') is-invalid @enderror" placeholder="" name="lBrake" id="lBrake" value="{{ old('lBrake',$maintenance->lastBrake) }}" />
+                                                            @error('lBrake')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <label class="form-label" for="basic-default-address">Update Last Oil Filter Changed Milage<span class="text-danger">*</span></label>
+                                                            <input type="number" class="form-control @error('lOil') is-invalid @enderror" placeholder="" name="lOil" id="lOil"  value="{{ old('lOil',$maintenance->lastOil) }}" />
+                                                            @error('lOil')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                
+                                                        <div class="col-md-6 mb-3">
+                                                            <label class="form-label" for="basic-default-address">Update Last Oil Engine Checked Milage<span class="text-danger">*</span></label>
+                                                            <input type="number" class="form-control @error('lEngine') is-invalid @enderror" placeholder="" name="lEngine" id="lEngine"  value="{{ old('lEngine',$maintenance->lastEngine) }}" />
+                                                            @error('lEngine')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card mt-3">
+                                        <div class="card-body">
+                                    @include('admin.VehicleManagement.extra.form')
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mt-4 d-flex justify-content-end">
+                                    <button class="btn btn-primary" type="submit">Complete CheckOut</button>
+                                </form>
+                                
+                                </div>
+                                
                             </div>
+                            
+                                    
                             
                         </div>
                     </div>
@@ -224,4 +300,29 @@
         </div>
     </div>
 
+
+    <script>
+        function toggleFields(checkbox) {
+            let row = checkbox.closest("tr");
+            let inputs = row.querySelectorAll("textarea");
+                inputs.forEach(input => {
+                input.disabled = !checkbox.checked;
+            });
+        }
+
+    </script>
+
+    <script>
+        function printInvoice() {
+            var printContent = document.getElementById("invoicePrintArea").innerHTML;
+            var originalContent = document.body.innerHTML;
+            
+            document.body.innerHTML = printContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Refresh page to restore functionality
+        }
+    </script>
+
+    
     @endsection
