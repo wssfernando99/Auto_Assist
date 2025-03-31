@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('inventory_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('category');
+            $table->string('description');
+            $table->bigInteger('isActive')->default(1);
             $table->timestamps();
         });
     }

@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('inventory_transactions', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('inventory_id');
+            $table->bigInteger('transaction_type');
+            $table->integer('quantity');
+            $table->string('reference')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
