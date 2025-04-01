@@ -47,22 +47,30 @@
                     
                     @endif
 
-                    <div class="d-flex justify-content-between  py-3 mb-4">
+                    <div class="d-flex justify-content-between  py-3 mb-1">
                         <div>
                         <h4 class="fw-bold"><span class="text-muted fw-light"></span>Inventory Management</h4>
                         </div>
                         <div>
                             <div class="btn-group" role="group" aria-label="Basic example">
+                                <a  href="{{ url('/inventoryManagement') }}" class="btn btn-dark" >
+                                    All Inventories
+                                </a>
                                 <a href="{{ url('/allCategories') }}" class="btn btn-outline-dark">Categories</a>
-                                <a  class="btn btn-outline-dark">Suppliers</a>
+                                <a href="{{ url('/allSuppliers') }}" class="btn btn-outline-dark">Suppliers</a>
                                 <a href="{{ url('/allTransactions') }}" class="btn btn-outline-dark">All Transactions</a>
+                                
                               </div>
+                          
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mb-4">
+                        
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-modal">
                             Add New Inventory
                         </button>
                         
-                          
-                        </div>
                     </div>
 
                     <div class="card">

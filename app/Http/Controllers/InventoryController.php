@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\InventoryCategories;
 use App\Models\InventoryTransaction;
+use App\Models\Suppliers;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -43,5 +44,13 @@ class InventoryController extends Controller
         return view('admin.InventoryManagement.Transactions.viewAllTransactions', compact('data'));
 
 
+    }
+
+    public function ViewAllSuppliers(){
+
+        $data = Suppliers::where('isActive',1)->get();
+
+
+        return view('admin.InventoryManagement.Suppliers.viewAllSuppliers', compact('data'));
     }
 }

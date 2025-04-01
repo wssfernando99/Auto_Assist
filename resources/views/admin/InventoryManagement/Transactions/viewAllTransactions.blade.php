@@ -53,14 +53,13 @@
                         </div>
                         <div>
                             <div class="btn-group" role="group" aria-label="Basic example">
+                                <a  href="{{ url('/inventoryManagement') }}" class="btn btn-outline-dark" >
+                                    All Inventories
+                                </a>
                                 <a href="{{ url('/allCategories') }}" class="btn btn-outline-dark">Categories</a>
-                                <a  class="btn btn-outline-dark">Suppliers</a>
+                                <a href="{{ url('/allSuppliers') }}" class="btn btn-outline-dark">Suppliers</a>
                                 <a href="{{ url('/allTransactions') }}" class="btn btn-dark">All Transactions</a>
                               </div>
-                        <a  href="{{ url('/inventoryManagement') }}" class="btn btn-success" >
-                            Back to Inventory Management
-                        </a>
-                        
                           
                         </div>
                     </div>

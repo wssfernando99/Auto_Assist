@@ -73,5 +73,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/inventoryManagement', [InventoryController::class, 'ViewAllInventory']);
     Route::get('/allCategories', [InventoryController::class, 'ViewAllCategory']);
     Route::get('/allTransactions', [InventoryController::class, 'ViewAllTransactions']);
+    Route::get('/allSuppliers', [InventoryController::class, 'ViewAllSuppliers']);
     
 });

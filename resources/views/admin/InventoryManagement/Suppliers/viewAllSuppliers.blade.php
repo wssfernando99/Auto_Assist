@@ -49,31 +49,31 @@
 
                     <div class="d-flex justify-content-between  py-3 mb-4">
                         <div>
-                        <h4 class="fw-bold"><span class="text-muted fw-light"></span>Inventory Management <i class="bi bi-arrow-right"></i> Categories</h4>
+                        <h4 class="fw-bold"><span class="text-muted fw-light"></span>Inventory Management <i class="bi bi-arrow-right"></i> Suppliers</h4>
                         </div>
                         <div>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a  class="btn btn-outline-dark">Categories</a>
-                                <a  class="btn btn-outline-dark">Suppliers</a>
-                                <a  class="btn btn-outline-dark">All Transactions</a>
+                                <a  href="{{ url('/inventoryManagement') }}" class="btn btn-outline-dark" >
+                                    All Inventories
+                                </a>
+                                <a href="{{ url('/allCategories') }}" class="btn btn-outline-dark">Categories</a>
+                                <a href="{{ url('/allSuppliers') }}" class="btn btn-dark">Suppliers</a>
+                                <a href="{{ url('/allTransactions') }}" class="btn btn-outline-dark">All Transactions</a>
                               </div>
-                        <a  href="{{ url('/inventoryManagement') }}" class="btn btn-success" >
-                            Back to Inventory Management
-                        </a>
-                        
-                          
                         </div>
                     </div>
 
                     <div class="card">
-                        <h5 class="card-header">All Categories</h5>
+                        <h5 class="card-header">All Suppliers</h5>
                         <div class="table-responsive text-nowrap overflow-visible">
                             <table id="myTable" class="table">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Category Name</th>
-                                        <th>Description</th>
+                                        <th>Name</th>
+                                        <th>Contact Person</th>
+                                        <th>Email</th>
+                                        <th>Contact Number</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
