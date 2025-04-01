@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -67,5 +68,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/removeItem/{id}', [VehicleController::class, 'RemoveItem']);
     Route::post('/completeCheckOut', [VehicleController::class, 'CompleteCheckOut']);
     Route::get('/printCheckOut/{vehicleId}/{serviceId}', [VehicleController::class, 'PrintCheckOut']);
+
+    //Inventory
+    Route::get('/inventoryManagement', [InventoryController::class, 'ViewAllInventory']);
+    Route::get('/allCategories', [InventoryController::class, 'ViewAllCategory']);
+    Route::get('/allTransactions', [InventoryController::class, 'ViewAllTransactions']);
     
 });

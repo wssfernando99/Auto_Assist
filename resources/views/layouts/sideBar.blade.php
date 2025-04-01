@@ -67,8 +67,8 @@
         </li>
 
 
-        <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
-            <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
+        <li class="menu-item {{ Request::is('inventoryManagement') ? 'active' : '' }}">
+            <a href="{{ url('/inventoryManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bi bi-box-seam"></i>
                 <div data-i18n="Analytics">Inventory Manage</div>
             </a>
