@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
- 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -42,7 +42,7 @@ class UserController extends Controller
 
 
                 return redirect('/adminDashboard');
-                
+
             } else if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'isActive' => 0])){
 
                 return redirect()->back()->withInput($request->only('email'))->with('error', "Sorry! you can't access the system");
@@ -113,7 +113,7 @@ class UserController extends Controller
             $user = User::find($id);
 
             if(!empty($request->profileImage)) {
-    
+
                 $imagePath = public_path('userProfileImage/'. $user->profileImage);
 
                 if(file_exists($imagePath) && $user->profileImage !== 'default.png') {
@@ -127,7 +127,7 @@ class UserController extends Controller
                 $imageName = $user->profileImage;
             }
 
-            
+
 
             User::where(['id' => $id])->update([
                 'name' => $request->name,
@@ -238,7 +238,7 @@ class UserController extends Controller
                 'password.min' => 'The password must be at least 6 characters.',
             ]);
 
-            
+
             $userId = 'user_'. random_int(1000000, 9999999);
 
             if(User::where('userId',$userId)->exists()){
@@ -252,7 +252,7 @@ class UserController extends Controller
                 $imageName = 'default.png';
             }
 
-             
+
 
             $user = new User();
             $user->userId = $userId;
@@ -265,7 +265,7 @@ class UserController extends Controller
             $user->profileImage = $imageName;
             $user->save();
 
-           
+
 
             return redirect()->back()->with('message', 'User Added Successfully !');
 
@@ -321,22 +321,22 @@ class UserController extends Controller
                 $user = User::find($id);
 
                 $userId = $user->userId;
-    
+
                 if(!empty($request->eprofileImage)) {
-    
+
                     $imagePath = public_path('userProfileImage/'. $user->profileImage);
-    
+
                     if(file_exists($imagePath) && $user->profileImage !== 'default.png') {
-    
+
                         unlink($imagePath);
                     }
-    
+
                     $imageName = $userId . '_' .$request->eprofileImage->getClientOriginalName();
                     $request->eprofileImage->move(public_path('userProfileImage'), $imageName);
                 }else{
                     $imageName = $user->profileImage;
                 }
-    
+
                 User::where(['id' => $id])->update([
                     'name' => $request->ename,
                     'email' => $request->eemail,
@@ -344,13 +344,13 @@ class UserController extends Controller
                     'contact' => $request->econtact,
                     'profileImage' => $imageName,
                  ]);
-                
+
                 return redirect()->back()->with('message', 'User Details Edited Successfully');
             }
 
-            
 
-           
+
+
         }catch (ValidationException $e) {
             throw $e;
         }catch (Exception $e) {
@@ -366,7 +366,7 @@ class UserController extends Controller
             ]);
 
             $user = User::find($id);
-            
+
             return redirect()->back()->with('message', 'User Disabled Successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error','Something Went Wrong');
@@ -404,7 +404,7 @@ class UserController extends Controller
             User::where(['id' => $id])->update([
                 'password' => Hash::make($request->cpwd)
             ]);
-            
+
             return redirect()->back()->with('message', 'Password Reset Successfully');
         }catch (ValidationException $e) {
             throw $e;
@@ -424,12 +424,12 @@ class UserController extends Controller
             $user->delete();
 
             $imagePath = public_path('userProfileImage/'. $user->profileImage);
-    
+
             if(file_exists($imagePath) && $user->profileImage !== 'default.png') {
-    
+
                 unlink($imagePath);
             }
-            
+
             return redirect()->back()->with('message', 'Deleted successfully.');
 
         } catch (Exception $e) {
