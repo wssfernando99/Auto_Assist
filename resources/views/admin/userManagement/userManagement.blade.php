@@ -18,7 +18,7 @@
 
                 @include('layouts.header')
 
-                
+
 
                     {{--  content  --}}
 
@@ -35,7 +35,7 @@
                     @endif
 
                     @if (session()->has('error'))
-                    
+
                         <div class="col-md-4 msg">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
@@ -44,7 +44,7 @@
                                 </button>
                             </div>
                         </div>
-                    
+
                     @endif
 
                     <div class="d-flex justify-content-between  py-3 mb-4">
@@ -69,11 +69,6 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    @if (count($data) == 0)
-                                        <tr>
-                                            <td colspan="6" class="text-center">No Data Available</td>
-                                        </tr>
-                                    @endif
                                     @foreach ($data as $user )
                                     <tr>
                                         <td>
@@ -101,7 +96,7 @@
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="javascript:void(0)"
                                                         data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="{{ $user->id }}" data-name="{{ $user->name }}"
-                                                        data-email="{{ $user->email }}" data-role="{{ $user->role }}" 
+                                                        data-email="{{ $user->email }}" data-role="{{ $user->role }}"
                                                         data-contact="{{ $user->contact }}" data-profileimage="{{ asset('userProfileImage/' . $user->profileImage) }}"><i
                                                             class="bx bx-edit-alt me-1"></i> Edit</a>
                                                     @if ($user->isActive == 1)
@@ -113,7 +108,7 @@
                                                         data-bs-toggle="modal" data-bs-target="#active-modal{{ $user->id }}"><i
                                                             class='bx bxs-check-circle'></i>activate</a>
                                                     @endif
-                                                    
+
                                                     <a class="dropdown-item" href="edit_user"
                                                         data-bs-toggle="modal" data-bs-target="#password-modal" data-id="{{ $user->id }}"><i
                                                             class='bx bx-reset'></i>Reset Password</a>
@@ -130,9 +125,9 @@
                         </div>
                     </div>
                 </div>
-                    
-        
-                
+
+
+
             </div>
             @else
             <div class="container mt-4">
@@ -146,25 +141,25 @@
                     <img src="{{ asset('fixedImages/access_denied.jpg') }}" alt="user-avatar" class="d-block rounded" height="400" id="uploadedAvatar" />
                 </div>
             </div>
-            
+
             @endif
         </div>
     </div>
 
     @include('admin.userManagement.modals.edit-Modal')
     @include('admin.userManagement.modals.createModal')
-    
+
     @include('admin.userManagement.modals.deactive-Modal')
     @include('admin.userManagement.modals.active-Modal')
 
     @include('admin.userManagement.modals.delete-Modal')
     @include('admin.userManagement.modals.password-Modal')
 
-    
 
 
-    
-    
+
+
+
     <script>
         $(document).ready(function () {
             $('#edit-modal').on('show.bs.modal', function (event) {
@@ -182,7 +177,7 @@
                 modal.find('#email').val(email);
                 modal.find('#role').val(role);
                 modal.find('#contact').val(contact);
-                
+
                 if (profileimage) {
                     modal.find('#profilePreview').attr('src', profileimage);
                 } else {
@@ -201,32 +196,32 @@
 
             let modal = $(this);
             modal.find('#id').val(id);
-            
+
         });
     });
 
 </script>
 
-    
-   
+
+
         @if($errors->has('name') || $errors->has('email') || $errors->has('contact') || $errors->has('profileImage') || $errors->has('password') || $errors->has('role'))
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 let modal = new bootstrap.Modal(document.getElementById('create-modal'));
                 modal.show();
             });
-        
+
         </script>
         @endif
-        
-   
+
+
         @if($errors->has('ename') || $errors->has('eemail') || $errors->has('econtact') || $errors->has('eprofileImage') ||  $errors->has('erole'))
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                 let modal = new bootstrap.Modal(document.getElementById('edit-modal'));
                  modal.show();
-             }); 
-        
+             });
+
             </script>
         @endif
 
@@ -235,12 +230,12 @@
                 document.addEventListener("DOMContentLoaded", function () {
                 let modal = new bootstrap.Modal(document.getElementById('password-modal'));
                  modal.show();
-             }); 
-        
+             });
+
             </script>
         @endif
-        
 
 
-    
+
+
 @endsection

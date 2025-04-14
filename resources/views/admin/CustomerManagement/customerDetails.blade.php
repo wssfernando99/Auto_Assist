@@ -18,7 +18,7 @@
 
                 @include('layouts.header')
 
-                
+
 
                     {{--  content  --}}
 
@@ -35,7 +35,7 @@
                     @endif
 
                     @if (session()->has('error'))
-                    
+
                         <div class="col-md-4 msg">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
@@ -44,7 +44,7 @@
                                 </button>
                             </div>
                         </div>
-                    
+
                     @endif
 
                     <div class="d-flex justify-content-between  py-3 mb-4">
@@ -69,17 +69,13 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    @if (count($data) == 0)
-                                        <tr>
-                                            <td colspan="6" class="text-center">No Data Available</td>
-                                        </tr>
-                                    @endif
+                                   
                                     @foreach ($data as $customer )
                                     <tr>
                                         <td>
                                             {{ $customer->customerId }}
                                         </td>
-                                        
+
                                         <td>
                                             <strong>{{ $customer->name }}</strong>
                                         </td>
@@ -92,7 +88,7 @@
                                         <td>
                                             {{ $customer->userName }}
                                         </td>
-                                        
+
                                         <td>
                                             <div class="dropdown z-50">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -100,27 +96,27 @@
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    
+
                                                     <a class="dropdown-item" href="javascript:void(0)"
                                                         data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="{{ $customer->id }}" data-name="{{ $customer->name }}"
-                                                        data-email="{{ $customer->email }}" data-contact="{{ $customer->contact }}"  data-address="{{ $customer->address }}" 
+                                                        data-email="{{ $customer->email }}" data-contact="{{ $customer->contact }}"  data-address="{{ $customer->address }}"
                                                         ><i
                                                             class="bx bx-edit-alt me-1"></i>Edit</a>
 
                                                     <a class="dropdown-item" href="javascript:void(0);"
                                                             data-bs-toggle="modal" data-bs-target="#add-modal" data-id="{{ $customer->id }}" data-customerid="{{ $customer->customerId }}">
                                                             <i class="bi bi-plus-circle-fill"></i> Add another Vehicle</a>
-                                                    
+
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
                                                         data-bs-toggle="modal" data-bs-target="#deleteCustomer-modal" data-customerid="{{ $customer->customerId }}"
                                                         data-name="{{ $customer->name }}"><i
                                                             class="bx bx-trash me-1"></i> Delete</a>
 
                                                     <a class="dropdown-item" href="{{ url('/customerDetail/'.$customer->customerId) }}">
-                                                                <i class="bi bi-arrow-right-square-fill me-1"></i>All Details</a>        
+                                                                <i class="bi bi-arrow-right-square-fill me-1"></i>All Details</a>
                                                 </div>
                                             </div>
-                                            
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -129,12 +125,12 @@
                         </div>
                     </div>
                 </div>
-                    
-        
-                
+
+
+
             </div>
 
-            
+
 
 
             @include('admin.customerManagement.modals.createModal')
@@ -142,8 +138,8 @@
             @include('admin.customerManagement.modals.add-modal')
             @include('admin.customerManagement.modals.deleteCustomer-modal')
 
-            
-            
+
+
 
             <script>
                 $(document).ready(function () {
@@ -154,18 +150,18 @@
                         let email = button.data('email');
                         let contact = button.data('contact');
                         let address = button.data('address');
-        
+
                         let modal = $(this);
                         modal.find('#id').val(id);
                         modal.find('#name').val(name);
                         modal.find('#email').val(email);
                         modal.find('#contact').val(contact);
                         modal.find('#address').val(address);
-                    
+
                     });
-                    
+
                 });
-        
+
             </script>
 
             <script>
@@ -179,9 +175,9 @@
                         modal.find('#id').val(id);
                         modal.find('#customer').val(customerId);
                         modal.find('#customeri').text(customerId);
-                    
+
                     });
-                    
+
                 });
 
             </script>
@@ -200,17 +196,17 @@
                 });
             </script>
 
-           
 
 
-            @if($errors->has('name') || $errors->has('email') || $errors->has('contact') || $errors->has('address') || $errors->has('brand') || $errors->has('model') || 
+
+            @if($errors->has('name') || $errors->has('email') || $errors->has('contact') || $errors->has('address') || $errors->has('brand') || $errors->has('model') ||
             $errors->has('year') || $errors->has('type') || $errors->has('engine') || $errors->has('numberPlate') || $errors->has('milage') || $errors->has('perMilage'))
             <script>
             document.addEventListener("DOMContentLoaded", function () {
                 let modal = new bootstrap.Modal(document.getElementById('create-modal'));
                 modal.show();
             });
-        
+
             </script>
             @endif
 
@@ -220,18 +216,18 @@
                 let modal = new bootstrap.Modal(document.getElementById('edit-modal'));
                 modal.show();
             });
-        
+
             </script>
             @endif
 
-            @if($errors->has('abrand') || $errors->has('amodel') || 
+            @if($errors->has('abrand') || $errors->has('amodel') ||
             $errors->has('ayear') || $errors->has('atype') || $errors->has('aengine') || $errors->has('anumberPlate') || $errors->has('amilage') || $errors->has('aperMilage'))
             <script>
             document.addEventListener("DOMContentLoaded", function () {
                 let modal = new bootstrap.Modal(document.getElementById('add-modal'));
                 modal.show();
             });
-        
+
             </script>
             @endif
 
@@ -247,7 +243,7 @@
                     <img src="{{ asset('fixedImages/access_denied.jpg') }}" alt="user-avatar" class="d-block rounded" height="400" id="uploadedAvatar" />
                 </div>
             </div>
-            
+
             @endif
         </div>
     </div>
