@@ -80,5 +80,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/addSupplier', [InventoryController::class, 'AddSupplier']);
     Route::post('/editSupplier', [InventoryController::class, 'EditSupplier']);
     Route::post('/deleteSupplier', [InventoryController::class, 'DeleteSupplier']);
+    Route::post('/addInventory', [InventoryController::class, 'AddInventory']);
+    Route::post('/editInventory', [InventoryController::class, 'EditInventory']);
+    Route::post('/deleteInventory', [InventoryController::class, 'DeleteInventory']);
+    Route::post('/makeTransaction', [InventoryController::class, 'MakeTransaction']);
 
 });

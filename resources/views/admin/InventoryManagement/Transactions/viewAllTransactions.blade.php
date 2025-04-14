@@ -71,9 +71,11 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Category Name</th>
-                                        <th>Description</th>
-                                        <th>Actions</th>
+                                        <th>Inventory Name</th>
+                                        <th>Transaction Type</th>
+                                        <th>Quantity</th>
+                                        <th>Note</th>
+                                        <th>Date & time</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -82,25 +84,28 @@
                                             <td colspan="8" class="text-center">No Data Available</td>
                                         </tr>
                                     @endif --}}
-                                    @foreach ($data as $inventory )
+                                    @foreach ($data as $index => $transaction )
                                     <tr>
                                         <td>
-                                            {{ $inventory->inventoryId }}
+                                            {{ $index +1}}
                                         </td>
                                         <td>
-                                            <strong>{{ $inventory->name }}</strong>
+                                            <strong>{{ $transaction->iname }}</strong>
                                         </td>
                                         <td>
-                                            {{ $inventory->contact }}
+                                            {{ $transaction->transaction_type }}
                                         </td>
                                         <td>
-                                            {{ $inventory->position }}
+                                            {{ $transaction->quantity }}
                                         </td>
                                         <td>
-                                            {{ $inventory->nic }}
+                                            {{ $transaction->note }}
+                                        </td>
+                                        <td>
+                                            {{ $transaction->created_at }}
                                         </td>
 
-                                        <td >
+                                        {{-- <td >
                                             <div class="dropdown z-50">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                                     data-bs-toggle="dropdown">
@@ -119,9 +124,9 @@
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
                                                         data-bs-toggle="modal" data-bs-target="#delete-modal{{ $employee->id }}"><i
                                                             class="bx bx-trash me-1"></i> Delete</a> --}}
-                                                </div>
+                                                {{-- </div>
                                             </div>
-                                        </td>
+                                        </td>  --}}
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -137,9 +142,7 @@
 
 
 
-            {{-- @include('admin.employeeManagement.modals.edit-modal')
-            @include('admin.employeeManagement.modals.delete-modal')
-            @include('admin.employeeManagement.modals.createModal') --}}
+
 
 
             <script>

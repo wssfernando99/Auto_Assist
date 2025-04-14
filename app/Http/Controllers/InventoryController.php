@@ -8,10 +8,15 @@ use App\Models\InventoryTransaction;
 use App\Models\Suppliers;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class InventoryController extends Controller
 {
+
+    //Inventory Management
+    //view all inventories
     public function ViewAllInventory(){
 
 
@@ -22,9 +27,198 @@ class InventoryController extends Controller
         ->where('inventories.isActive',1)
         ->get();
 
+        $categories = InventoryCategories::where('isActive',1)->get();
+        $suppliers = Suppliers::where('isActive',1)->get();
 
-        return view('admin.InventoryManagement.viewAllInventory', compact('data'));
+
+        return view('admin.InventoryManagement.viewAllInventory', compact('data','categories','suppliers'));
     }
+
+    //add new inventory
+
+    public function AddInventory(Request $request){
+
+        $request->validate([
+            'category' => 'required',
+            'name' => 'required',
+            'description' => 'nullable',
+            'quantity' => 'required|integer|min:0',
+            'price' => 'required|numeric|decimal:0,2',
+            'supplier' => 'required',
+            'sku' => 'required | integer | min:0',
+        ],[
+            'category.required' => 'Please select a category.',
+            'name.required' => 'Please enter a name.',
+            'quantity.required' => 'Please enter a quantity.',
+            'quantity.numeric' => 'Please enter a valid quantity.',
+            'quantity.min' => 'Please enter a valid quantity.',
+            'price.required' => 'Please enter a price.',
+            'price.numeric' => 'Please enter a valid price.',
+            'price.decimal' => 'Please enter a valid price.',
+            'supplier.required' => 'Please select a supplier.',
+            'sku.required' => 'Please enter a quantity.',
+            'sku.min' => 'Please enter a valid quantity.',
+        ]);
+
+        if($request->quantity > $request->sku){
+            return back()
+                ->withErrors([
+                    'quantity' => 'Quantity cannot be greater than SKU.',
+                ])
+                ->withInput();
+        }
+
+        try{
+            DB::beginTransaction();
+
+            $inventory = new Inventory();
+            $inventory->inventory_category_id = $request->category;
+            $inventory->name = $request->name;
+            $inventory->description = $request->description;
+            $inventory->quantity = $request->quantity;
+            $inventory->price = $request->price;
+            $inventory->supplier_id = $request->supplier;
+            $inventory->sku = $request->sku;
+            $inventory->reorder_level = $request->sku - $request->quantity;
+            $inventory->isActive = 1;
+            $inventory->save();
+
+            $transaction = new InventoryTransaction();
+            $transaction->inventory_id = $inventory->id;
+            $transaction->transaction_type = 'Add New';
+            $transaction->quantity = $request->quantity;
+            $transaction->reference = Auth::user()->id;
+            $transaction->note = 'New Inventory Record added by '.Auth::user()->name;
+            $transaction->save();
+
+            DB::commit();
+
+            return redirect()->back()->with('message','Inventory added successfully.');
+
+        }catch(Exception $e){
+
+            return redirect()->back()->with('error','Something went wrong.');
+
+        }
+    }
+
+    //edit inventory
+
+    public function EditInventory(Request $request){
+
+        $request->validate([
+            'id' => 'required',
+            'ecategory' => 'required',
+            'ename' => 'required',
+            'edescription' => 'nullable',
+            'equantity' => 'required|integer|min:0',
+            'eprice' => 'required|numeric|decimal:0,2',
+            'esupplier' => 'required',
+            'esku' => 'required | integer | min:0',
+        ],[
+            'ecategory.required' => 'Please select a category.',
+            'ename.required' => 'Please enter a name.',
+            'equantity.required' => 'Please enter a quantity.',
+            'equantity.numeric' => 'Please enter a valid quantity.',
+            'equantity.min' => 'Please enter a valid quantity.',
+            'eprice.required' => 'Please enter a price.',
+            'eprice.numeric' => 'Please enter a valid price.',
+            'eprice.decimal' => 'Please enter a valid price.',
+            'esupplier.required' => 'Please select a supplier.',
+            'esku.required' => 'Please enter'
+        ]);
+
+        if($request->esku < $request->equantity){
+            return back()
+                ->withErrors([
+                    'equantity' => 'Quantity cannot be greater than SKU.',
+                ])
+                ->withInput();
+        }
+
+        try{
+
+            $inventory = Inventory::find($request->id);
+
+            if(!$inventory || $inventory->isActive == 0){
+
+                return redirect()->back()->with('error','Inventory not found.');
+            }
+
+            DB::beginTransaction();
+
+            $inventory->where('id',$request->id)->update([
+                'inventory_category_id' => $request->ecategory,
+                'name' => $request->ename,
+                'description' => $request->edescription,
+                'quantity' => $request->equantity,
+                'price' => $request->eprice,
+                'supplier_id' => $request->esupplier,
+                'sku' => $request->esku,
+                'reorder_level' => $request->esku - $request->equantity
+            ]);
+
+            $transaction = new InventoryTransaction();
+            $transaction->inventory_id = $inventory->id;
+            $transaction->transaction_type = 'Edit Record';
+            $transaction->quantity = abs($inventory->quantity - $request->equantity);
+            $transaction->reference = Auth::user()->id;
+            $transaction->note = 'Inventory Record updated by '.Auth::user()->name;
+            $transaction->save();
+
+            DB::commit();
+
+            return redirect()->back()->with('message','Inventory updated successfully.');
+
+        }catch(Exception $e){
+
+            return redirect()->back()->with('error','Something went wrong.');
+
+        }
+
+    }
+
+    //delete inventory
+
+    public function DeleteInventory(Request $request){
+
+        $request->validate([
+            'id' => 'required',
+        ],[
+            'id.required' => 'Please select an inventory.',
+        ]);
+
+        try{
+
+            $inventory = Inventory::find($request->id);
+
+            if(!$inventory || $inventory->isActive == 0){
+
+                return redirect()->back()->with('error','Inventory not found.');
+            }
+            DB::beginTransaction();
+
+            $inventory->where('id',$request->id)->update([
+                'isActive' => 0,
+            ]);
+
+            $transaction = new InventoryTransaction();
+            $transaction->inventory_id = $inventory->id;
+            $transaction->transaction_type = 'Delete Record';
+            $transaction->quantity = $inventory->quantity;
+            $transaction->reference = Auth::user()->id;
+            $transaction->note = 'Inventory Record deleted by '.Auth::user()->name;
+            $transaction->save();
+
+            return redirect()->back()->with('message','Inventory deleted successfully.');
+
+        }catch(Exception $e){
+
+            return redirect()->back()->with('error','Something went wrong.');
+        }
+    }
+
+
 
     //Inventory Categories
     //view all category
@@ -135,13 +329,80 @@ class InventoryController extends Controller
         $data = InventoryTransaction::join('inventories','inventory_transactions.inventory_id','=','inventories.id')
         ->join('inventory_categories','inventory_categories.id','=','inventories.inventory_category_id')
         ->join('suppliers','suppliers.id','=','inventories.supplier_id')
-        ->select('inventory_transactions.*','inventories.*','inventory_categories.*','suppliers.*')
+        ->select('inventory_transactions.*','inventories.name as iname')
         ->orderby('inventory_transactions.id','desc')
         ->get();
 
 
         return view('admin.InventoryManagement.Transactions.viewAllTransactions', compact('data'));
 
+
+    }
+
+    //make a transaction
+
+    public function MakeTransaction(Request $request){
+
+        // dd($request->all());
+
+        $request->validate([
+            'id' => 'required',
+            'ttransaction' => 'required',
+            'tquantity' => 'required | integer | min:1',
+            'tnote' => 'required',
+        ],[
+            'id.required' => 'Please select an inventory.',
+            'ttransaction.required' => 'Please select a transaction type.',
+            'tquantity.required' => 'Please enter a quantity.',
+            'tquantity.integer' => 'Please enter a valid quantity.',
+            'tquantity.min' => 'Please enter a quantity greater than 0.',
+            'tnote.required' => 'Please enter a note.',
+        ]);
+
+        try{
+
+            $inventory = Inventory::find($request->id);
+
+            if(!$inventory || $inventory->isActive == 0){
+                return redirect()->back()->with('error','Inventory not found.');
+            }
+
+            if($request->tquantity > $inventory->quantity){
+
+                return back()
+                ->withErrors([
+                    'tquantity' => 'Quantity is greater than available quantity, available quantity is '.$inventory->quantity.'.',
+                ])
+                ->withInput();
+            }
+
+            DB::beginTransaction();
+
+            $transaction = new InventoryTransaction();
+            $transaction->inventory_id = $request->id;
+            $transaction->transaction_type = $request->ttransaction;
+            $transaction->quantity = $request->tquantity;
+            $transaction->reference = Auth::user()->id;
+            $transaction->note = "note : " .$request->tnote . ". by " . Auth::user()->name;
+            $transaction->save();
+
+            $inventory->quantity = $inventory->quantity - $request->tquantity;
+            $inventory->save();
+
+            $inventory->update([
+                'reorder_level' => $inventory->sku - $inventory->quantity,
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('message','Transaction made successfully.');
+
+        }catch(Exception $e){
+
+            DB::rollback();
+            return redirect()->back()->with('error','Something went wrong. Please try again later.');
+
+        }
 
     }
 
