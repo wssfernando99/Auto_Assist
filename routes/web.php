@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -51,7 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/updateMaintenance', [CustomerController::class, 'UpdateMaintenance']);
     Route::post('/deleteVehicle', [CustomerController::class, 'DeleteVehicle']);
     Route::post('/deleteCustomer', [CustomerController::class, 'DeleteCustomer']);
-    
+
     //Vehicle
     Route::get('/vehicleManagement', [VehicleController::class, 'VehicleDetails']);
     Route::post('/checkIn', [VehicleController::class, 'CheckIn']);
@@ -67,5 +68,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/removeItem/{id}', [VehicleController::class, 'RemoveItem']);
     Route::post('/completeCheckOut', [VehicleController::class, 'CompleteCheckOut']);
     Route::get('/printCheckOut/{vehicleId}/{serviceId}', [VehicleController::class, 'PrintCheckOut']);
-    
+
+    //Inventory
+    Route::get('/inventoryManagement', [InventoryController::class, 'ViewAllInventory']);
+    Route::get('/allCategories', [InventoryController::class, 'ViewAllCategory']);
+    Route::get('/allTransactions', [InventoryController::class, 'ViewAllTransactions']);
+    Route::get('/allSuppliers', [InventoryController::class, 'ViewAllSuppliers']);
+    Route::post('/addCategory', [InventoryController::class, 'AddCategory']);
+    Route::post('/editCategory', [InventoryController::class, 'EditCategory']);
+    Route::post('/deleteCategory', [InventoryController::class, 'DeleteCategory']);
+    Route::post('/addSupplier', [InventoryController::class, 'AddSupplier']);
+    Route::post('/editSupplier', [InventoryController::class, 'EditSupplier']);
+    Route::post('/deleteSupplier', [InventoryController::class, 'DeleteSupplier']);
+    Route::post('/addInventory', [InventoryController::class, 'AddInventory']);
+    Route::post('/editInventory', [InventoryController::class, 'EditInventory']);
+    Route::post('/deleteInventory', [InventoryController::class, 'DeleteInventory']);
+    Route::post('/makeTransaction', [InventoryController::class, 'MakeTransaction']);
+
 });
