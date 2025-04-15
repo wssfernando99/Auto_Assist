@@ -18,7 +18,7 @@
 
                 @include('layouts.header')
 
-                
+
 
                     {{--  content  --}}
 
@@ -35,7 +35,7 @@
                     @endif
 
                     @if (session()->has('error'))
-                    
+
                         <div class="col-md-4 msg">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
@@ -44,7 +44,7 @@
                                 </button>
                             </div>
                         </div>
-                    
+
                     @endif
 
                     <div class="d-flex justify-content-between  py-3 mb-4">
@@ -81,7 +81,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -122,10 +122,10 @@
                                         <tr>
                                             <th colspan="4">
                                                 <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editVehicle-modal"
-                                                    data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}" data-brand="{{ $vehicle->vehicleBrand }}" 
-                                                    data-type="{{ $vehicle->vehicleType }}" data-model="{{ $vehicle->vehicleModel }}" data-engine="{{ $vehicle->engineType }}" 
+                                                    data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}" data-brand="{{ $vehicle->vehicleBrand }}"
+                                                    data-type="{{ $vehicle->vehicleType }}" data-model="{{ $vehicle->vehicleModel }}" data-engine="{{ $vehicle->engineType }}"
                                                     data-plate="{{ $vehicle->numberPlate }}" data-year="{{ $vehicle->vehicleYear }}" data-milage="{{ $vehicle->milage }}"
-                                                    data-per="{{ $vehicle->milagePer }}" data-check="{{ $vehicle->check }}">
+                                                    data-per="{{ $vehicle->milagePer }}" data-check="{{ $vehicle->check }}" data-vin="{{ $vehicle->vin }}">
                                                 <i class="bx bx-edit-alt me-1"></i>Edit</button>
 
                                                 <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#maintenance-modal"  data-vehicleid="{{ $vehicle->vehicleId }}"
@@ -139,22 +139,22 @@
                                         </tr>
                                     </table>
                                 </div>
-                                    
+
                                 @endforeach
 
-                        
+
 
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
-                    
-        
-                
+
+
+
             </div>
 
-            
+
 
 
             @include('admin.customerManagement.modals.editVehicle-modal')
@@ -170,9 +170,9 @@
 
                         let modal = $(this);
                         modal.find('#vehicleId').val(vehicleId);
-                    
+
                     });
-                    
+
                 });
 
             </script>
@@ -192,7 +192,9 @@
                         let milage = button.data('milage');
                         let milagePer = button.data('per');
                         let check = button.data('check');
-        
+                        let vin = button.data('vin');
+
+
                         let modal = $(this);
                         modal.find('#id').val(id);
                         modal.find('#vehicleId').val(vehicleId);
@@ -205,19 +207,20 @@
                         modal.find('#milage').val(milage);
                         modal.find('#perMilage').val(milagePer);
                         modal.find('#check').prop('checked', check == 1);
+                        modal.find('#vin').val(vin);
 
-                    
+
                     });
-                    
+
                 });
-        
+
             </script>
 
 
             <script>
                 $(document).ready(function () {
                     $('#maintenance-modal').on('show.bs.modal', function (event) {
-                        let button = $(event.relatedTarget); 
+                        let button = $(event.relatedTarget);
                         let vehicleId = button.data('vehicleid');
                         let milage = button.data('milage');
                         let lService = button.data('lservice');
@@ -233,16 +236,16 @@
                         modal.find('#lOil').val(lOil);
                         modal.find('#lEngine').val(lEngine);
 
-                    
+
                     });
-                    
+
                 });
 
             </script>
 
-            
 
-            @if($errors->has('abrand') || $errors->has('amodel') || 
+
+            @if($errors->has('abrand') || $errors->has('amodel') ||
             $errors->has('ayear') || $errors->has('atype') || $errors->has('aengine') || $errors->has('anumberPlate') || $errors->has('amilage') || $errors->has('aperMilage'))
             <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -264,7 +267,7 @@
             @endif
 
 
-            
+
 
             @else
             <div class="container mt-4">
@@ -278,7 +281,7 @@
                     <img src="{{ asset('fixedImages/access_denied.jpg') }}" alt="user-avatar" class="d-block rounded" height="400" id="uploadedAvatar" />
                 </div>
             </div>
-            
+
             @endif
         </div>
     </div>

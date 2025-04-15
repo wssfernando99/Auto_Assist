@@ -72,7 +72,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    
+
                                     @foreach ($data as $vehicle )
                                     <tr>
                                         <td>
@@ -131,8 +131,7 @@
 
                                                     @else
                                                     <a class="dropdown-item" href="{{ url('/vehicleDetails/'.$vehicle->id) }}"
-                                                        ><i
-                                                            class="bx bx-trash me-1"></i> Specs</a>
+                                                        ><i class='bx bxs-report'></i> Specs</a>
 
                                                     @endif
 
