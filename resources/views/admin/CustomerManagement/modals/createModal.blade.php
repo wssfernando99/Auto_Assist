@@ -7,10 +7,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form  action="{{url('/addCustomer')}}" method="post" novalidate enctype="multipart/form-data">
-                {{csrf_field()}}                
+                {{csrf_field()}}
                 <div class="modal-body">
 
-                    
+
 
                     <div class="row">
                         <div class="col-md-12 mb-3"><h4>Customer Details</h4></div>
@@ -85,10 +85,10 @@
                             @error('type')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                                 
+
                             </div>
                         </div>
-                       
+
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="basic-default-role">Engine Type<span class="text-danger">*</span></label>
                             <div class="input-group input-group-merge">
@@ -102,7 +102,7 @@
                             @error('engine')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                                 
+
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -112,24 +112,31 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" for="basic-default-company">Total Milage(Km)<span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('milage') is-invalid @enderror"  placeholder="milage"   id="milage" name="milage"  value="{{ old('milage') }}" />
-                            @error('milage')
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="basic-default-company">Total Milage<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('amilage') is-invalid @enderror"  placeholder="milage"   id="milage" name="amilage"  value="{{ old('amilage') }}" />
+                            @error('amilage')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" for="basic-default-company">Milage Per month(Km)<span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('perMilage') is-invalid @enderror"  placeholder="milage"   id="perMilage" name="perMilage"  value="{{ old('perMilage') }}" />
-                            @error('perMilage')
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="basic-default-company">Milage Per month<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('aperMilage') is-invalid @enderror"  placeholder="milage"   id="perMilage" name="aperMilage"  value="{{ old('aperMilage') }}" />
+                            @error('aperMilage')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="basic-default-company">Vin Code</label>
+                            <input type="number" class="form-control @error('vin') is-invalid @enderror"  placeholder="MR0CX9CD9N4037304"   id="vin" name="vin"  value="{{ old('vin') }}" />
+                            @error('vin')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-3 mb-3 d-flex justify-content-between">
                             <label class="form-label" for="basic-default-company">Enable Notification feature</label>
                             <input type="checkbox" class="form-check-input" id="check" name="check" value="1" />
-                            
+
                         </div>
                     </div>
 

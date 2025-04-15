@@ -9,19 +9,19 @@
             <h6><strong class="me-2">Vehicle Id:</strong>{{ $service->vehicleId }}</h6>
         </div>
         <div class="col-md-6 mt-2">
-            
+
             <p><strong class="me-2">Service Id: </strong>{{ $service->serviceId }}</p>
             <p><strong class="me-2">Date : </strong>{{ $service->serviceDate }}</p>
-            <p><strong class="me-2">Vehicle No: </strong>{{ $service->numberPlate }}</p>
+            <p><strong class="me-2">Vehicle No: </strong>{{ $vehicle->numberPlate }}</p>
         </div>
         <div class="col-md-6 mt-2">
-            <p><strong class="me-2">Vehicle Brand:  </strong>{{ $service->vehicleBrand }}</p>
-            <p><strong class="me-2">Vehicle Model: </strong>{{ $service->vehicleModel }}</p>
-            <p><strong class="me-2">Vehicle Year: </strong>{{ $service->vehicleYear }}</p>
+            <p><strong class="me-2">Vehicle Brand:  </strong>{{ $vehicle->vehicleBrand }}</p>
+            <p><strong class="me-2">Vehicle Model: </strong>{{ $vehicle->vehicleModel }}</p>
+            <p><strong class="me-2">Vehicle Year: </strong>{{ $vehicle->vehicleYear }}</p>
         </div>
     </div>
     <table class="table table-bordered mt-3">
-        
+
         <thead class="table-dark text-white">
             <tr>
                 <th>Inspection Items</th>
@@ -38,16 +38,16 @@
                     @if ($detail->inspection == 'windshield')
                     <input type="checkbox" value="windshield" checked>
                     @endif
-                    
+
                 @endforeach
-                
+
                 </td>
                 <td>
                 @foreach ($serviceDetails as $detail )
                     @if ($detail->checkId == '0')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -55,7 +55,7 @@
                     @if ($detail->checkId == '0')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -66,16 +66,16 @@
                     @if ($detail->inspection == 'mirrors')
                     <input type="checkbox" value="windshield" checked>
                     @endif
-                    
+
                 @endforeach
-                
+
                 </td>
                 <td>
                 @foreach ($serviceDetails as $detail )
                     @if ($detail->checkId == '1')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -83,7 +83,7 @@
                     @if ($detail->checkId == '1')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -94,7 +94,7 @@
                     @if ($detail->inspection == 'instruments')
                     <input type="checkbox" value="windshield" checked>
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -102,7 +102,7 @@
                     @if ($detail->checkId == '2')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -110,7 +110,7 @@
                     @if ($detail->checkId == '2')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -121,7 +121,7 @@
                     @if ($detail->inspection == 'emBrake')
                     <input type="checkbox" value="windshield" checked>
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -129,7 +129,7 @@
                     @if ($detail->checkId == '3')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -137,7 +137,7 @@
                     @if ($detail->checkId == '3')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -155,7 +155,7 @@
                     @if ($detail->checkId == '4')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -163,7 +163,7 @@
                     @if ($detail->checkId == '4')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -181,7 +181,7 @@
                     @if ($detail->checkId == '5')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -189,7 +189,7 @@
                     @if ($detail->checkId == '5')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -207,7 +207,7 @@
                     @if ($detail->checkId == '6')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -215,7 +215,7 @@
                     @if ($detail->checkId == '6')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -233,7 +233,7 @@
                     @if ($detail->checkId == '7')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -241,7 +241,7 @@
                     @if ($detail->checkId == '7')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -259,7 +259,7 @@
                     @if ($detail->checkId == '8')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -267,7 +267,7 @@
                     @if ($detail->checkId == '8')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -285,7 +285,7 @@
                     @if ($detail->checkId == '9')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -293,7 +293,7 @@
                     @if ($detail->checkId == '9')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -311,7 +311,7 @@
                     @if ($detail->checkId == '10')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -319,7 +319,7 @@
                     @if ($detail->checkId == '10')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -337,7 +337,7 @@
                     @if ($detail->checkId == '11')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -345,7 +345,7 @@
                     @if ($detail->checkId == '11')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -363,7 +363,7 @@
                     @if ($detail->checkId == '12')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -371,7 +371,7 @@
                     @if ($detail->checkId == '12')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -389,7 +389,7 @@
                     @if ($detail->checkId == '13')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -397,7 +397,7 @@
                     @if ($detail->checkId == '13')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -415,7 +415,7 @@
                     @if ($detail->checkId == '14')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -423,7 +423,7 @@
                     @if ($detail->checkId == '14')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -441,7 +441,7 @@
                     @if ($detail->checkId == '15')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -449,7 +449,7 @@
                     @if ($detail->checkId == '15')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>
@@ -467,7 +467,7 @@
                     @if ($detail->checkId == '16')
                     {{ $detail->Deficiencies }}
                     @endif
-                    
+
                 @endforeach
                 </td>
                 <td>
@@ -475,7 +475,7 @@
                     @if ($detail->checkId == '16')
                     {{ $detail->service }}
                     @endif
-                    
+
                 @endforeach
                 </td>
             </tr>

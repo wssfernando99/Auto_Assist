@@ -48,46 +48,35 @@
                     @endif
 
                     <div class="d-flex justify-content-between  py-3 mb-4">
-                        <h4 class="fw-bold"><span class="text-muted fw-light"></span>Vehicle Management<i class="bi bi-arrow-right"></i> Past Records</h4>
+                        <h4 class="fw-bold"><span class="text-muted fw-light"></span>Vehicle Management<i class="bi bi-arrow-right"></i>Specs</h4>
                         <a href="{{ url('/vehicleManagement') }}" class="btn btn-secondary" >
                             Back
                         </a>
                     </div>
 
                     <div class="card">
-                        <div class="col-md-12 d-flex justify-content-between">
-                        <h5 class="card-header">Vehicle No : {{ $vehicle->numberPlate }}</h5>
-                        <h5 class="card-header">Customer Name : {{ $vehicle->name }}</h5>
-                        </div>
-                        <div class="table-responsive text-nowrap overflow-visible">
-                            <table id="myTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Service Id</th>
-                                        <th>Service Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-border-bottom-0">
-
-                                    @foreach ($data as $vehicle )
-                                    <tr>
-                                        <td>
-                                            {{ $vehicle->serviceId }}
-                                        </td>
-                                        <td>
-                                            {{ $vehicle->serviceDate }}
-                                        </td>
-
-
-                                        <td>
-                                            <a href="{{ url('/pastServiceLog/'. $vehicle->serviceId) }}" class="btn btn-primary btn-sm">View Record</a>
-                                            <a href="{{ url('/getWithInvoice/'.$vehicle->invoiceId .'/'.$vehicle->serviceId) }}" class="btn btn-secondary btn-sm">View Record with invoice</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                        <h5 class="card-header">Vehicle Specifications for <b>{{ $vehicle['vehicleBrand'] }} {{ $vehicle['vehicleModel'] }} {{ $vehicle['vehicleYear'] }}</b></h5>
+                        <div class="table-responsive text-nowrap overflow-visible p-3">
+                            @if(isset($response['specs']) && is_array($response['specs']) && count($response['specs']) > 0)
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Specification</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($response['specs'] as $key => $value)
+                                            <tr>
+                                                <td>{{ ucwords(str_replace('_', ' ', $key)) }}</td>
+                                                <td>{{ $value === '*** (hidden)' ? 'Hidden (Upgrade to view)' : $value }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <p class="text-muted">Sorry! No specification data available.</p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -100,26 +89,57 @@
 
 
             @include('admin.vehicleManagement.modals.check-modal')
+            @include('admin.customerManagement.modals.editVehicle-modal')
+            @include('admin.customerManagement.modals.maintenance-modal')
+            @include('admin.customerManagement.modals.deleteVehicle-modal')
 
 
 
 
             <script>
                 $(document).ready(function () {
-                    $('#edit-modal').on('show.bs.modal', function (event) {
+                    $('#editVehicle-modal').on('show.bs.modal', function (event) {
                         let button = $(event.relatedTarget); // Button that triggered the modal
                         let id = button.data('id');
-                        let name = button.data('name');
-                        let email = button.data('email');
-                        let contact = button.data('contact');
-                        let address = button.data('address');
+                        let vehicleId = button.data('vehicleid');
+                        let brand = button.data('brand');
+                        let type = button.data('type');
+                        let model = button.data('model');
+                        let engine = button.data('engine');
+                        let plate = button.data('plate');
+                        let year = button.data('year');
+                        let milage = button.data('milage');
+                        let milagePer = button.data('per');
+                        let check = button.data('check');
 
                         let modal = $(this);
                         modal.find('#id').val(id);
-                        modal.find('#name').val(name);
-                        modal.find('#email').val(email);
-                        modal.find('#contact').val(contact);
-                        modal.find('#address').val(address);
+                        modal.find('#vehicleId').val(vehicleId);
+                        modal.find('#brand').val(brand);
+                        modal.find('#type').val(type);
+                        modal.find('#modelName').val(model);
+                        modal.find('#engine').val(engine);
+                        modal.find('#numberPlate').val(plate);
+                        modal.find('#year').val(year);
+                        modal.find('#milage').val(milage);
+                        modal.find('#perMilage').val(milagePer);
+                        modal.find('#check').prop('checked', check == 1);
+
+
+                    });
+
+                });
+
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#deleteVehicle-modal').on('show.bs.modal', function (event) {
+                        let button = $(event.relatedTarget);
+                        let vehicleId = button.data('vehicleid');
+
+                        let modal = $(this);
+                        modal.find('#vehicleId').val(vehicleId);
 
                     });
 
@@ -209,4 +229,4 @@
         </div>
     </div>
 
-@endsection
+    @endsection

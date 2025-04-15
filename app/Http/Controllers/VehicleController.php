@@ -204,9 +204,9 @@ class VehicleController extends Controller
                 return $item['id'] !== $id; // Keep only items that don't match the given ID
             });
 
-        
+
             Cache::put('itemInvoiceData', array_values($updatedItems)); // Re-index and store
-            
+
 
             return back()->with('message', 'Item removed successfully.');
 
@@ -247,13 +247,14 @@ class VehicleController extends Controller
 
         $invoiceId = Cache::get('invoiceId');
         $serviceId = Cache::get('serviceId');
-        
+
 
         $invoice = new Invoice();
         $invoice->invoiceId = $invoiceId;
         $invoice->invoiceDate = $request->invoiceDate;
         $invoice->vehicleId = $request->vehicleId;
         $invoice->customerId = $request->customerId;
+        $invoice->serviceId = $serviceId;
         $invoice->subTotal = $request->subTotal;
         $invoice->isActive = 1;
         $invoice->save();
@@ -262,7 +263,7 @@ class VehicleController extends Controller
         if(!empty($items)){
 
             foreach($items as $item){
-            
+
                 $detail = new InvoiceDetail();
                 $detail->invoiceId = $invoiceId;
                 $detail->description = $item['description'];
@@ -282,14 +283,14 @@ class VehicleController extends Controller
         $service->isActive = 1;
         $service->save();
 
-         
+
 
         if (!empty($request->check)) {
             foreach ($request->check as $index => $check) {
                 // Check if the corresponding deficiencies and service exist
                 $deficiency = $request->deficiencies[$index] ?? null;
                 $servicePerformed = $request->service[$index] ?? null;
-        
+
                 $serviceDetail = new ServiceDetail();
                 $serviceDetail->serviceId = $service->serviceId;
                 $serviceDetail->inspection = $check;
@@ -301,7 +302,7 @@ class VehicleController extends Controller
         }
 
         Cache::flush();
-        
+
 
          return redirect('/printCheckOut/'.$invoice->invoiceId .'/'.$service->serviceId)->with('message','Checkout Complete');
 
@@ -320,17 +321,24 @@ class VehicleController extends Controller
                 ->orderby('id','desc')
                 ->get();
 
-        $service = Service::join('vehicles','services.vehicleId','=','services.vehicleId')
-                ->select('services.*','vehicles.*')
-                ->where('services.isActive',1)
-                ->where('services.serviceId',$serviceId)
+        // $service = Service::join('vehicles','services.vehicleId','=','services.vehicleId')
+        //         ->select('services.*','vehicles.*')
+        //         ->where('services.isActive',1)
+        //         ->where('services.serviceId',$serviceId)
+        //         ->first();
+
+        $service = Service::where('isActive',1)
+                ->where('serviceId',$serviceId)
                 ->first();
+
+        $vehicle = Vehicle::where('vehicleId',$service->vehicleId)
+        ->first();
 
         $serviceDetails = ServiceDetail::where('serviceId',$serviceId)
                 ->orderby('id','desc')
                 ->get();
 
-        return view('admin.VehicleManagement.printCheckOut',compact('invoice','invoiceItems','service','serviceDetails'));
+        return view('admin.VehicleManagement.printCheckOut',compact('invoice','invoiceItems','service','serviceDetails','vehicle'));
 
     }
 
@@ -340,28 +348,94 @@ class VehicleController extends Controller
         $vehicle = Vehicle::where('id',$id)
             ->first();
 
-        $vin = $vehicle->vin; 
+        $vin = $vehicle->vin;
 
         $data = $this->vehicleService->getVehicleDetails($vin);
 
-        dd($data);
-
-        return response()->json($data);
+        return view('admin.VehicleManagement.vehicleSpecs', ['response' => $data , 'vehicle' => $vehicle]);
     }
 
     public function PastRecords($vehicleId){
 
-        $data = Service::where('isActive',1)
-            ->where('vehicleId',$vehicleId)
-            ->orderby('created_at','desc')
+        // $data = Service::where('isActive',1)
+        //     ->where('vehicleId',$vehicleId)
+        //     ->orderby('created_at','desc')
+        //     ->get();
+
+        $data = Service::join('invoices','services.serviceId','=','invoices.serviceId')
+            ->select('services.*','invoices.invoiceId')
+            ->where('services.isActive',1)
+            ->where('services.vehicleId',$vehicleId)
+            ->orderby('services.created_at','desc')
             ->get();
 
+
         $vehicle = Vehicle::join('customers','vehicles.customerId','=','customers.customerId')
-            ->select('vehicles.*','customer.name')
+            ->select('vehicles.*','customers.name')
             ->where('vehicleId',$vehicleId)
             ->first();
 
         return view('admin.VehicleManagement.VehiclePastRecords',compact('data', 'vehicle'));
     }
-        
+
+    public function GetServiceRecord($serviceId){
+
+        // $service = Service::join('vehicles','services.vehicleId','=','services.vehicleId')
+        //         ->select('services.*','vehicles.*')
+        //         ->where('services.isActive',1)
+        //         ->where('services.serviceId',$serviceId)
+        //         ->first();
+
+        $service = Service::where('isActive',1)
+                ->where('serviceId',$serviceId)
+                ->first();
+
+        $vehicle = Vehicle::where('vehicleId',$service->vehicleId)
+        ->first();
+
+        $serviceDetails = ServiceDetail::where('serviceId',$serviceId)
+                ->orderby('id','desc')
+                ->get();
+
+
+
+        return view('admin.VehicleManagement.serviceRecord',compact('service','serviceDetails','vehicle'));
+
+
+    }
+
+    public function GetWithInvoice($invoiceId, $serviceId){
+
+        $invoice = Invoice::join('customers','invoices.customerId','=','customers.customerId')
+            ->join('vehicles','invoices.vehicleId','=','vehicles.vehicleId')
+            ->select('invoices.*','customers.name','vehicles.numberPlate')
+            ->where('invoices.isActive',1)
+            ->where('invoices.invoiceId',$invoiceId)
+            ->first();
+
+        $invoiceItems = InvoiceDetail::where('invoiceId',$invoiceId)
+                ->orderby('id','desc')
+                ->get();
+
+        // $service = Service::join('vehicles','services.vehicleId','=','services.vehicleId')
+        //         ->select('services.*','vehicles.*')
+        //         ->where('services.isActive',1)
+        //         ->where('services.serviceId',$serviceId)
+        //         ->first();
+
+        $service = Service::where('isActive',1)
+                ->where('serviceId',$serviceId)
+                ->first();
+
+        $vehicle = Vehicle::where('vehicleId',$service->vehicleId)
+        ->first();
+
+        $serviceDetails = ServiceDetail::where('serviceId',$serviceId)
+                ->orderby('id','desc')
+                ->get();
+
+        return view('admin.VehicleManagement.printCheckOutCopy',compact('invoice','invoiceItems','service','serviceDetails','vehicle'));
+
+    }
+
 }

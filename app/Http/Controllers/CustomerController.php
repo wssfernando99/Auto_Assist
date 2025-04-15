@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -48,6 +48,7 @@ class CustomerController extends Controller
                 'numberPlate' => 'required',
                 'milage' => 'required|numeric',
                 'perMilage' => 'required|numeric',
+                'vin' => 'nullable',
             ],[
                 'name.required' => 'Pleace enter vehicle Name',
                 'email.email' => 'Email is not valid',
@@ -82,6 +83,8 @@ class CustomerController extends Controller
 
             $userId = Auth::user()->userId;
 
+            DB::beginTransaction();
+
             $customer = new Customer();
             $customer->customerId = $customerId;
             $customer->name = $request->name;
@@ -110,6 +113,7 @@ class CustomerController extends Controller
             $vehicle->numberPlate = $request->numberPlate;
             $vehicle->milage = $request->milage;
             $vehicle->milagePer = $request->perMilage;
+            $vehicle->vin = $request->vin;
 
             if($request->has('check')){
                 $vehicle->check = 1;
@@ -129,6 +133,8 @@ class CustomerController extends Controller
             $maintenance->isActive = 1;
             $maintenance->save();
 
+            DB::commit();
+
             return redirect()->back()->with('message','Customer added successfully');
 
 
@@ -138,7 +144,7 @@ class CustomerController extends Controller
         }catch(Exception $e){
             return redirect()->back()->with('error','Something went wrong');
         }
-        
+
     }
 
     public function EditCustomer(Request $request){
@@ -218,6 +224,7 @@ class CustomerController extends Controller
                 'anumberPlate' => 'required',
                 'amilage' => 'required|numeric',
                 'aperMilage' => 'required|numeric',
+                'vin' => 'nullable',
             ],[
                 'abrand.required' => 'Pleace enter vehicle Brand',
                 'amodelName.required' => 'Pleace enter vehicle Model Name',
@@ -235,6 +242,8 @@ class CustomerController extends Controller
                 $vehicleId = 'VE_'.random_int(1000000, 9999999);
             }
 
+            DB::beginTransaction();
+
             $vehicle = new Vehicle();
             $vehicle->customerId = $request->customer;
             $vehicle->vehicleId = $vehicleId;
@@ -246,6 +255,7 @@ class CustomerController extends Controller
             $vehicle->numberPlate = $request->anumberPlate;
             $vehicle->milage = $request->amilage;
             $vehicle->milagePer = $request->aperMilage;
+            $vehicle->vin = $request->vin;
 
             if($request->has('check')){
                 $vehicle->check = 1;
@@ -265,6 +275,8 @@ class CustomerController extends Controller
             $maintenance->isActive = 1;
             $maintenance->save();
 
+            DB::commit();
+
             return redirect()->back()->with('message','Vehicle added successfully');
 
 
@@ -275,7 +287,7 @@ class CustomerController extends Controller
             return redirect()->back()->with('error','Something went wrong');
         }
 
-        
+
     }
 
     public function EditVehicle(Request $request){
@@ -291,6 +303,7 @@ class CustomerController extends Controller
                 'anumberPlate' => 'required',
                 'amilage' => 'required|numeric',
                 'aperMilage' => 'required|numeric',
+                'vin' => 'nullable',
             ],[
                 'abrand.required' => 'Pleace enter vehicle Brand',
                 'amodelName.required' => 'Pleace enter vehicle Model Name',
@@ -308,6 +321,8 @@ class CustomerController extends Controller
                 $check = 0;
             }
 
+            DB::beginTransaction();
+
             Vehicle::where(['vehicleId' => $request->vehicleId])->update([
                 'vehicleBrand' => $request->abrand,
                 'vehicleModel' => $request->amodelName,
@@ -318,11 +333,13 @@ class CustomerController extends Controller
                 'milage' => $request->amilage,
                 'milagePer' => $request->aperMilage,
                 'check' => $check,
+                'vin' => $request->vin,
             ]);
 
             Maintenance::where(['vehicleId' => $request->vehicleId])->update([
                 'totalMilage' => $request->amilage,
             ]);
+            DB::commit();
 
             return redirect()->back()->with('message','Vehicle updated successfully');
 
@@ -352,6 +369,8 @@ class CustomerController extends Controller
                 'lEngine.required' => 'Pleace enter last Engine Milage',
             ]);
 
+            DB::beginTransaction();
+
             Maintenance::where(['vehicleId' => $request->vehicleId])->update([
                 'totalMilage' => $request->milage,
                 'lastService' => $request->lService,
@@ -363,6 +382,8 @@ class CustomerController extends Controller
             Vehicle::where(['vehicleId' => $request->vehicleId])->update([
                 'milage' => $request->milage,
             ]);
+
+            DB::commit();
 
             return redirect()->back()->with('message','Maintenance updated successfully');
 
