@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Jobs\Prediction;
 use App\Models\Maintain;
 use Illuminate\Support\Facades\DB;
+use App\Mail\Notification;
 
 class MaintainController extends Controller
 {
@@ -57,5 +58,27 @@ class MaintainController extends Controller
             ->get();
 
         return response()->json($maintains);
+    }
+
+    public function SendNotification(Request $request)
+    {
+        $notificationMethod = $request->notificationMethod;
+        $id = $request->id;
+
+        if ($notificationMethod == 'email') {
+            $this->SendByEmail($id);
+        } elseif ($notificationMethod == 'sms') {
+            $this->SendBySMS($id);
+        }
+    }
+
+    public function SendByEmail($id)
+    {
+        // Logic for sending email notification using the ID
+    }
+
+    public function SendBySMS($id)
+    {
+        // Logic for sending SMS notification using the ID
     }
 }
