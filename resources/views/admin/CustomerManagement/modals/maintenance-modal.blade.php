@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form  action="{{url('/updateMaintenance')}}" method="post" novalidate enctype="multipart/form-data">
-                {{csrf_field()}}                
+                {{csrf_field()}}
                 <div class="modal-body">
 
                     <input type="text" name="vehicleId" id="vehicleId" hidden>
@@ -50,8 +50,16 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label" for="basic-default-address">Last Tire Rotation Milage<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('lTire') is-invalid @enderror" placeholder="" name="lTire" id="lTire"  value="{{ old('lTire') }}" />
+                            @error('lTire')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                    
+
 
                 </div>
                 <div class="modal-footer">

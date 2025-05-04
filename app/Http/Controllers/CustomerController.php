@@ -353,7 +353,7 @@ class CustomerController extends Controller
     }
 
     public function UpdateMaintenance(Request $request){
-        try{
+        // try{
 
             $request->validate([
                 'milage' => 'required|numeric',
@@ -361,23 +361,52 @@ class CustomerController extends Controller
                 'lBrake' => 'required|numeric',
                 'lOil' => 'required|numeric',
                 'lEngine' => 'required|numeric',
+                'lTire' => 'required|numeric',
             ],[
                 'milage.required' => 'Pleace enter total Milage',
                 'lService.required' => 'Pleace enter last Service Milage',
                 'lBrake.required' => 'Pleace enter last Brake Milage',
                 'lOil.required' => 'Pleace enter last Oil Milage',
                 'lEngine.required' => 'Pleace enter last Engine Milage',
+                'lTire.required' => 'Pleace enter last Tire Milage',
             ]);
 
             DB::beginTransaction();
 
-            Maintenance::where(['vehicleId' => $request->vehicleId])->update([
+            $maintenance = Maintenance::where('vehicleId', $request->vehicleId)->first();
+
+            $updateData = [
                 'totalMilage' => $request->milage,
-                'lastService' => $request->lService,
-                'lastBrake' => $request->lBrake,
-                'lastOil' => $request->lOil,
-                'lastEngine' => $request->lEngine,
-            ]);
+            ];
+
+            // Check and update each field only if it has changed
+            if ($request->lService != $maintenance->lastService) {
+                $updateData['lastService'] = $request->lService;
+                $updateData['lServiceDate'] = now();
+            }
+
+            if ($request->lBrake != $maintenance->lastBrake) {
+                $updateData['lastBrake'] = $request->lBrake;
+                $updateData['lBrakeDate'] = now();
+            }
+
+            if ($request->lOil != $maintenance->lastOil) {
+                $updateData['lastOil'] = $request->lOil;
+                $updateData['lOilDate'] = now();
+            }
+
+            if ($request->lEngine != $maintenance->lastEngine) {
+                $updateData['lastEngine'] = $request->lEngine;
+                $updateData['lEngineDate'] = now();
+            }
+
+            if ($request->lTire != $maintenance->lastTire) {
+                $updateData['lastTire'] = $request->lTire;
+                $updateData['lTireDate'] = now();
+            }
+
+            // Finally update only what changed
+            $maintenance->update($updateData);
 
             Vehicle::where(['vehicleId' => $request->vehicleId])->update([
                 'milage' => $request->milage,
@@ -387,11 +416,11 @@ class CustomerController extends Controller
 
             return redirect()->back()->with('message','Maintenance updated successfully');
 
-        }catch(ValidationException $e){
-            throw $e;
-        }catch(Exception $e){
-            return redirect()->back()->with('error','Something went wrong');
-        }
+        // }catch(ValidationException $e){
+        //     throw $e;
+        // }catch(Exception $e){
+        //     return redirect()->back()->with('error','Something went wrong');
+        // }
     }
 
     public function DeleteVehicle(Request $request){

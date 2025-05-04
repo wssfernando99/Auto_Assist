@@ -235,13 +235,40 @@ class VehicleController extends Controller
             'milage' => $request->milage,
         ]);
 
-        Maintenance::where(['vehicleId' => $request->vehicleId])->update([
+        $maintenance = Maintenance::where('vehicleId', $request->vehicleId)->first();
+
+        $updateData = [
             'totalMilage' => $request->milage,
-            'lastService' => $request->lService,
-            'lastBrake' => $request->lBrake,
-            'lastOil' => $request->lOil,
-            'lastEngine' => $request->lEngine,
-        ]);
+        ];
+
+        // Check and update each field only if it has changed
+        if ($request->lService != $maintenance->lastService) {
+            $updateData['lastService'] = $request->lService;
+            $updateData['lServiceDate'] = now();
+        }
+
+        if ($request->lBrake != $maintenance->lastBrake) {
+            $updateData['lastBrake'] = $request->lBrake;
+            $updateData['lBrakeDate'] = now();
+        }
+
+        if ($request->lOil != $maintenance->lastOil) {
+            $updateData['lastOil'] = $request->lOil;
+            $updateData['lOilDate'] = now();
+        }
+
+        if ($request->lEngine != $maintenance->lastEngine) {
+            $updateData['lastEngine'] = $request->lEngine;
+            $updateData['lEngineDate'] = now();
+        }
+
+        if ($request->lTire != $maintenance->lastTire) {
+            $updateData['lastTire'] = $request->lTire;
+            $updateData['lTireDate'] = now();
+        }
+
+        // Finally update only what changed
+        $maintenance->update($updateData);
 
         $items = Cache::get('itemInvoiceData');
 

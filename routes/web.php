@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\MaintainController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -86,5 +87,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/editInventory', [InventoryController::class, 'EditInventory']);
     Route::post('/deleteInventory', [InventoryController::class, 'DeleteInventory']);
     Route::post('/makeTransaction', [InventoryController::class, 'MakeTransaction']);
+
+    //Maintain
+    Route::get('/maintainManagement', [MaintainController::class, 'AllMaintains']);
+    Route::get('/prediction', [MaintainController::class, 'Prediction']);
+    Route::get('/maintains/latest', [MaintainController::class, 'fetchLatest']);
 
 });

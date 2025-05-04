@@ -130,7 +130,7 @@
 
                                                 <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#maintenance-modal"  data-vehicleid="{{ $vehicle->vehicleId }}"
                                                     data-milage="{{ $vehicle->totalMilage }}" data-lservice="{{ $vehicle->lastService }}" data-lbrake="{{ $vehicle->lastBrake }}" data-loil="{{ $vehicle->lastOil }}"
-                                                    data-lengine="{{ $vehicle->lastEngine }}">
+                                                    data-lengine="{{ $vehicle->lastEngine }}" data-ltire ="{{ $vehicle->lastTire }}">
                                                 <i class="bi bi-capslock-fill me-1"></i>Update Maintenance</button>
 
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteVehicle-modal"  data-vehicleid="{{ $vehicle->vehicleId }}">
@@ -227,6 +227,7 @@
                         let lBrake = button.data('lbrake');
                         let lOil = button.data('loil');
                         let lEngine = button.data('lengine');
+                        let lTire = button.data('ltire');
 
                         let modal = $(this);
                         modal.find('#vehicleId').val(vehicleId);
@@ -235,7 +236,7 @@
                         modal.find('#lBrake').val(lBrake);
                         modal.find('#lOil').val(lOil);
                         modal.find('#lEngine').val(lEngine);
-
+                        modal.find('#lTire').val(lTire);
 
                     });
 
