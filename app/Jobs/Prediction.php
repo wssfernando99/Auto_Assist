@@ -10,9 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Services\PredictionService;
-use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class Prediction implements ShouldQueue
 {
@@ -113,7 +111,6 @@ class Prediction implements ShouldQueue
                 $maintain->note = "Service Round";
                 $maintain->nextService = $nextServiceMileage;
                 $maintain->predictedDate = $this->today;
-                $maintain->sendCount = 0;
                 $maintain->save();
             }else{
                 $maintain->update([
@@ -134,7 +131,6 @@ class Prediction implements ShouldQueue
                 $maintain->note = "Brake Maintenance Round";
                 $maintain->nextBrake = $nextBrakeMaintenanceMileage;
                 $maintain->predictedDate = $this->today;
-                $maintain->sendCount = 0;
                 $maintain->save();
             }else{
                 $maintain->update([
@@ -155,7 +151,6 @@ class Prediction implements ShouldQueue
                 $maintain->note = "Oil Filter Change Round";
                 $maintain->nextOil = $nextOilFilterChangeMileage;
                 $maintain->predictedDate = $this->today;
-                $maintain->sendCount = 0;
                 $maintain->save();
             }else{
                 $maintain->update([
@@ -176,7 +171,6 @@ class Prediction implements ShouldQueue
                 $maintain->note = "Engine Checkup Round";
                 $maintain->nextEngine = $nextEngineCheckupMileage;
                 $maintain->predictedDate = $this->today;
-                $maintain->sendCount = 0;
                 $maintain->save();
             }else{
                 $maintain->update([
@@ -197,7 +191,6 @@ class Prediction implements ShouldQueue
                 $maintain->note = "Tire Rotation Round";
                 $maintain->nextTire = $nextTireRotationMileage;
                 $maintain->predictedDate = $this->today;
-                $maintain->sendCount = 0;
                 $maintain->save();
             }else{
                 $maintain->update([

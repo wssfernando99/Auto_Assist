@@ -20,6 +20,7 @@ class Maintain extends Model
         'predictedDate',
         'send',
         'sentCount',
+        'sendby',
         'lastSentDate',
     ];
 }

@@ -12,7 +12,7 @@
     }
     }
 
-    
+
 @endphp
 @extends('layouts.adminLayout')
 
@@ -28,7 +28,7 @@
 
                 @include('layouts.header')
 
-                
+
 
                     {{--  content  --}}
 
@@ -45,7 +45,7 @@
                     @endif
 
                     @if (session()->has('error'))
-                    
+
                         <div class="col-md-4 msg">
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <h6 class="alert-heading d-flex align-items-center mb-1">Error!!</h6>
@@ -54,12 +54,12 @@
                                 </button>
                             </div>
                         </div>
-                    
+
                     @endif
 
                     <div class="d-flex justify-content-between  py-3 mb-4">
                         <h4 class="fw-bold"><span class="text-muted fw-light"></span>Vehicle Management<i class="bi bi-arrow-right"></i> Checked In Vehicles <i class="bi bi-arrow-right"></i> Checked Out</h4>
-                        
+
                         <a href="{{ url('/checkInVehicles') }}" class="btn btn-secondary" >
                             Back
                         </a>
@@ -75,7 +75,7 @@
                                     <div class="card">
                                         <div class="card-body" >
                                             <form  action="{{url('/itemInvoice')}}" method="post" novalidate enctype="multipart/form-data">
-                                                {{csrf_field()}}  
+                                                {{csrf_field()}}
 
                                                     <div class="row">
                                                         <div class="col-md-12 mb-3">
@@ -107,9 +107,9 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    
+
                                                 <div class="d-flex justify-content-end">
-                                                    
+
                                                     <button class="btn btn-secondary" type="submit">Add</button>
                                                 </div>
                                             </form>
@@ -159,7 +159,7 @@
                                                                             <i class="bi bi-file-excel text-danger"></i>
                                                                             </a>
                                                                         </td>
-                                                                        
+
                                                                     </tr>
                                                                 @else
                                                                     <tr>
@@ -172,8 +172,8 @@
                                                                 <td colspan="5" class="text-center">No items in the invoice.</td>
                                                             </tr>
                                                         @endif
-                                                    
-                                                    
+
+
                                                 </tbody>
                                             </table>
                                             <div class="row mt-3">
@@ -188,8 +188,8 @@
                                         </div>
                                         </div>
                                     </div>
-                                        
-                                    
+
+
 
                                 </div>
                                 <form  action="{{url('/completeCheckOut')}}" method="post" novalidate enctype="multipart/form-data">
@@ -197,14 +197,14 @@
                                 <div class="col-md-12">
                                     <div class="card mt-3">
                                         <div class="card-body">
-                                                            
+
                                                 <div class="modal-body">
-                                
+
                                                     <input type="text" name="vehicleId" id="vehicleId" value="{{ $vehicle->vehicleId }}" hidden>
                                                     <input type="text" name="invoiceDate" id="invoiceDate" value="{{ $date }}" hidden>
                                                     <input type="text" name="customerId" id="customerId" value="{{ $customer->customerId }}" hidden>
                                                     <input type="text" name="subTotal" id="subTotal" value="{{ $subTotal }}" hidden>
-                                                    
+
                                                     <div class="row">
                                                         <div class="col-md-12 mb-3"><h4>Update Vehicle Maintenance Records</h4></div>
                                                         <div class="col-md-4 mb-3">
@@ -228,23 +228,31 @@
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
                                                         </div>
-                                                        <div class="col-md-6 mb-3">
+                                                        <div class="col-md-4 mb-3">
                                                             <label class="form-label" for="basic-default-address">Update Last Oil Filter Changed Milage<span class="text-danger">*</span></label>
                                                             <input type="number" class="form-control @error('lOil') is-invalid @enderror" placeholder="" name="lOil" id="lOil"  value="{{ old('lOil',$maintenance->lastOil) }}" />
                                                             @error('lOil')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
                                                         </div>
-                                
-                                                        <div class="col-md-6 mb-3">
+
+                                                        <div class="col-md-4 mb-3">
                                                             <label class="form-label" for="basic-default-address">Update Last Oil Engine Checked Milage<span class="text-danger">*</span></label>
                                                             <input type="number" class="form-control @error('lEngine') is-invalid @enderror" placeholder="" name="lEngine" id="lEngine"  value="{{ old('lEngine',$maintenance->lastEngine) }}" />
                                                             @error('lEngine')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
                                                         </div>
+
+                                                        <div class="col-md-4 mb-3">
+                                                            <label class="form-label" for="basic-default-address">Update Last Tire Rotation Milage<span class="text-danger">*</span></label>
+                                                            <input type="number" class="form-control @error('lTire') is-invalid @enderror" placeholder="" name="lTire" id="lTire"  value="{{ old('lTire',$maintenance->lastTire) }}" />
+                                                            @error('lTire')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                         </div>
                                     </div>
@@ -254,34 +262,34 @@
                                     <div class="card mt-3">
                                         <div class="card-body">
                                     @include('admin.VehicleManagement.extra.form')
-                                        
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mt-4 d-flex justify-content-end">
                                     <button class="btn btn-primary" type="submit">Complete CheckOut</button>
                                 </form>
-                                
+
                                 </div>
-                                
+
                             </div>
-                            
-                                    
-                            
+
+
+
                         </div>
                     </div>
                 </div>
-                    
-        
-                
+
+
+
             </div>
 
-            
+
 
 
             @include('admin.vehicleManagement.modals.check-modal')
 
-            
+
 
             @else
             <div class="container mt-4">
@@ -295,7 +303,7 @@
                     <img src="{{ asset('fixedImages/access_denied.jpg') }}" alt="user-avatar" class="d-block rounded" height="400" id="uploadedAvatar" />
                 </div>
             </div>
-            
+
             @endif
         </div>
     </div>
@@ -316,7 +324,7 @@
         function printInvoice() {
             var printContent = document.getElementById("invoicePrintArea").innerHTML;
             var originalContent = document.body.innerHTML;
-            
+
             document.body.innerHTML = printContent;
             window.print();
             document.body.innerHTML = originalContent;
@@ -324,5 +332,5 @@
         }
     </script>
 
-    
+
     @endsection

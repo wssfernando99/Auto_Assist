@@ -13,12 +13,20 @@ class Notification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $customer;
+    public $maintain;
+    public $vehicle;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($customer, $maintain, $vehicle)
     {
-        //
+        $this->customer = $customer;
+        $this->maintain = $maintain;
+        $this->vehicle = $vehicle;
+
+
     }
 
     /**
@@ -27,7 +35,7 @@ class Notification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notification',
+            subject: 'Maintenance Notification',
         );
     }
 
@@ -38,6 +46,10 @@ class Notification extends Mailable
     {
         return new Content(
             view: 'emails.notification',
+            with: ['customer' => $this->customer,
+                    'maintain' =>$this->maintain,
+                    'vehicle' => $this->vehicle
+                    ], // pass data to the view
         );
     }
 

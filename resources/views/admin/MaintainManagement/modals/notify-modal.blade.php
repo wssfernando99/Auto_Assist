@@ -2,13 +2,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Notify Customer : <span id="name"></span></h5>
+                <h5 class="modal-title" id="exampleModalLabel1">Ignore</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post" action="{{ url('/checkIn') }}" id="checkInForm">
+            <form method="post" action="{{ url('/sendNotification') }}" id="checkInForm">
                 {{ csrf_field() }}
 
-                <input type="hidden" name="vehicleId" id="vehicleId" />
+                <input type="hidden" name="id" id="id" />
 
                 <div class="modal-body">
                     <div class="mb-3">

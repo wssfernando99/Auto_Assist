@@ -49,10 +49,15 @@
 
                     <div class="d-flex justify-content-between  py-3 mb-4">
                         <h4 class="fw-bold"><span class="text-muted fw-light"></span>Maintenance Alerts Management</h4>
-
+                        <div class="d-flex align-items-center">
+                            <a href="{{ url('/allPredictions') }}"  class="btn btn-primary me-2 d-flex align-items-center" >
+                                All Predictions
+                            </a>
                         <a href="{{ url('/prediction') }}" class="btn btn-outline-primary d-flex align-items-center" >
                             Predict Maintenances
                         </a>
+                        </div>
+
                     </div>
 
                     <div class="card">
@@ -87,7 +92,7 @@
 
 
             @include('admin.MaintainManagement.modals.notify-modal')
-
+            @include('admin.MaintainManagement.modals.ignore-modal')
 
 
 
@@ -114,30 +119,12 @@
 
             <script>
                 $(document).ready(function () {
-                    $('#deleteVehicle-modal').on('show.bs.modal', function (event) {
-                        let button = $(event.relatedTarget);
-                        let vehicleId = button.data('vehicleid');
-
-                        let modal = $(this);
-                        modal.find('#vehicleId').val(vehicleId);
-
-                    });
-
-                });
-
-            </script>
-
-            <script>
-                $(document).ready(function () {
-                    $('#add-modal').on('show.bs.modal', function (event) {
+                    $('#ignore-modal').on('show.bs.modal', function (event) {
                         let button = $(event.relatedTarget); // Button that triggered the modal
                         let id = button.data('id');
-                        let customerId = button.data('customerid');
 
                         let modal = $(this);
                         modal.find('#id').val(id);
-                        modal.find('#customer').val(customerId);
-                        modal.find('#customeri').text(customerId);
 
                     });
 
@@ -146,60 +133,49 @@
             </script>
 
             <script>
+                let table;
+
                 $(document).ready(function () {
-                    $('#check-modal').on('show.bs.modal', function (event) {
-                        let button = $(event.relatedTarget); // Button that triggered the modal
-                        let vehicleId = button.data('vehicleid');
+                    table = $('#myTable').DataTable();
 
-                        let modal = $(this);
-                        modal.find('#vehicleId').val(vehicleId);
+                    fetchMaintains(); // Initial load
+                    setInterval(fetchMaintains, 2000); // Reload every 2 seconds
+                });
+
+                function fetchMaintains() {
+                    $.ajax({
+                        url: '/maintains/latest',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            let rows = data.map(maintain => {
+                                // Create buttons for each row
+                                let sendButton = `<button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#notify-modal"
+                                                    data-id="${maintain.id}" data-name="${maintain.name}" data-number="${maintain.contact}" data-email='${maintain.email}'>Send Message</button>`;
+                                let ignoreButton = `<button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#ignore-modal"
+                                                    data-id="${maintain.id}" >Ignore</button>`;
+
+                                return [
+                                    maintain.vehicleId,
+                                    maintain.name,
+                                    maintain.numberPlate,
+                                    maintain.Note,
+                                    maintain.predictedDate,
+                                    maintain.send == null ? 'not send' : 'sent',
+                                    maintain.sentCount,
+                                    `${sendButton} ${ignoreButton}` // Add buttons to last column
+                                ];
+                            });
+
+                            table.clear().rows.add(rows).draw();
+                        },
+                        error: function () {
+                            alert('Failed to fetch data.');
+                        }
                     });
-                });
+                }
+
             </script>
-
-<script>
-    let table;
-
-    $(document).ready(function () {
-        table = $('#myTable').DataTable();
-
-        fetchMaintains(); // Initial load
-        setInterval(fetchMaintains, 2000); // Reload every 2 seconds
-    });
-
-    function fetchMaintains() {
-        $.ajax({
-            url: '/maintains/latest',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                let rows = data.map(maintain => {
-                    // Create buttons for each row
-                    let sendButton = `<button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#notify-modal"
-                                        data-id="${maintain.id}" data-name="${maintain.name}" data-number="${maintain.contact}" data-email='${maintain.email}'>Send Message</button>`;
-                    let ignoreButton = `<button class="btn btn-secondary btn-sm" onclick="ignoreAction(${maintain.id})">Ignore</button>`;
-
-                    return [
-                        maintain.vehicleId,
-                        maintain.name,
-                        maintain.numberPlate,
-                        maintain.Note,
-                        maintain.predictedDate,
-                        maintain.send == null ? 'not send' : 'sent',
-                        maintain.sentCount,
-                        `${sendButton} ${ignoreButton}` // Add buttons to last column
-                    ];
-                });
-
-                table.clear().rows.add(rows).draw();
-            },
-            error: function () {
-                alert('Failed to fetch data.');
-            }
-        });
-    }
-
-</script>
 
 
 
