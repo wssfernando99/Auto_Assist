@@ -37,7 +37,7 @@
 
         <li class="menu-item {{ Request::is('salaryManagement') ? 'active' : '' }}">
             <!-- link -->
-            <a href="#" class="menu-link text-dark">
+            <a href="{{ url('/salaryManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bi bi-currency-dollar"></i>
                 <div data-i18n="Analytics">Salary Manage</div>
             </a>

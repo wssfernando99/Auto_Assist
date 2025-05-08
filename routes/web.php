@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MaintainController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -99,4 +100,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //for check
     Route::get('/sendSMS', [SMSController::class, 'sendSMS']);
+
+
+    //salary management
+
+    Route::get('/salaryManagement', [SalaryController::class, 'AllSalaries']);
+    Route::post('/updateSalary', [SalaryController::class, 'UpdateSalary']);
+    Route::post('/paid/{id}', [SalaryController::class, 'Paid']);
+    Route::post('/unPaid/{id}', [SalaryController::class, 'UnPaid']);
+    Route::get('/viewAllSalary', [SalaryController::class, 'ViewAllSalary']);
 });
