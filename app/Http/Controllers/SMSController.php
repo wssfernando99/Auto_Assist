@@ -10,8 +10,6 @@ class SMSController extends Controller
     public function sendSMS($messageBody, $to)
 {
     try {
-        // $sid = "AC1b7a4edd70d1a740916709833a288433";
-        // $token = "6882affe2eabc7589e42939f43bf8133";
 
 
         $sid = config('services.twilio.sid');
