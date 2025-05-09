@@ -12,14 +12,13 @@ class SMSController extends Controller
     try {
 
 
-        $sid = config('services.twilio.sid');
-        $token = config('services.twilio.token');
-        $from = config('services.twilio.from');
+        $sid = "AC1b7a4edd70d1a740916709833a288433";
+        $token = "6882affe2eabc7589e42939f43bf8133";
         $twilio = new Client($sid, $token);
 
         $message = $twilio->messages->create($to, [
             'body' => $messageBody,
-            'from' => $from,
+            'from' => "+15673623604",
         ]);
 
         return $message; // Return the message object

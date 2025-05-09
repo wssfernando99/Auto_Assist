@@ -33,6 +33,8 @@ class CustomerController extends Controller
 
     public function AddCustomer(Request $request){
 
+
+        dd($request->all());
         try{
 
             $request->validate([
@@ -48,7 +50,6 @@ class CustomerController extends Controller
                 'numberPlate' => 'required',
                 'milage' => 'required|numeric',
                 'perMilage' => 'required|numeric',
-                'vin' => 'nullable',
             ],[
                 'name.required' => 'Pleace enter vehicle Name',
                 'email.email' => 'Email is not valid',
@@ -130,6 +131,12 @@ class CustomerController extends Controller
             $maintenance->lastBrake = $request->milage;
             $maintenance->lastOil = $request->milage;
             $maintenance->lastEngine = $request->milage;
+            $maintenance->lastTire = $request->milage;
+            $maintenance->lEngineDate = now();
+            $maintenance->lBrakeDate = now();
+            $maintenance->lOilDate = now();
+            $maintenance->lTireDate = now();
+            $maintenance->lServiceDate = now();
             $maintenance->isActive = 1;
             $maintenance->save();
 
