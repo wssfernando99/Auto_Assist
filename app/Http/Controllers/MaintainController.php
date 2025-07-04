@@ -56,7 +56,7 @@ class MaintainController extends Controller
     {
         $maintains = Maintain::join('customers', 'maintains.customerId', '=', 'customers.customerId')
             ->join('vehicles', 'maintains.vehicleId', '=', 'vehicles.vehicleId')
-            ->select('maintains.*', 'customers.name', 'customers.email', 'customers.contact', 'vehicles.numberPlate')
+            ->select('maintains.*', 'customers.name', 'customers.email', 'customers.contact', 'vehicles.numberPlate', 'vehicles.vin')
             ->where('maintains.predictedDate', now()->toDateString())
             ->where(function ($query) {
                 $query->whereNull('maintains.send')

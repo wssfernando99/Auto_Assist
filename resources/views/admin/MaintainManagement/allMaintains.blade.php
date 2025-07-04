@@ -69,6 +69,7 @@
                                         <th>Vehicle ID</th>
                                         <th>Customer Name</th>
                                         <th>Vehicle Number</th>
+                                        <th>Vin</th>
                                         <th>Note</th>
                                         <th>Predicted Date</th>
                                         <th>Send</th>
@@ -159,6 +160,7 @@
                                     maintain.vehicleId,
                                     maintain.name,
                                     maintain.numberPlate,
+                                    maintain.vin,
                                     maintain.Note,
                                     maintain.predictedDate,
                                     maintain.send == null ? 'not send' : 'sent',
