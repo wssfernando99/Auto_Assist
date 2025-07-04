@@ -37,7 +37,7 @@
 
         <li class="menu-item {{ Request::is('salaryManagement') ? 'active' : '' }}">
             <!-- link -->
-            <a href="#" class="menu-link text-dark">
+            <a href="{{ url('/salaryManagement') }}" class="menu-link text-dark">
                 <i class="menu-icon tf-icons bi bi-currency-dollar"></i>
                 <div data-i18n="Analytics">Salary Manage</div>
             </a>
@@ -79,23 +79,16 @@
         </li>
 
 
-        <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
-            <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons bi bi-exclamation-triangle-fill "></i> 
+        <li class="menu-item {{ Request::is('maintainManagement') ? 'active' : '' }}">
+            <a href="{{ url('/maintainManagement') }}" class="menu-link text-dark">
+                <i class="menu-icon tf-icons bi bi-exclamation-triangle-fill "></i>
 
                 <div data-i18n="Analytics">Maintenance Alerts</div>
             </a>
         </li>
-        <li class="menu-item {{ Request::is('materialManagement') ? 'active' : '' }}">
-            <a href="{{ url('/materialManagement') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-iconsbi bi-tools"></i> 
 
-                <div data-i18n="Analytics">Service Roud Alerts</div>
-            </a>
-        </li>
 
-    
-    
+
     </ul>
 </aside>
 

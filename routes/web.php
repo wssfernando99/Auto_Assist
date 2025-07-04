@@ -3,7 +3,10 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\MaintainController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\SMSController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
@@ -87,4 +90,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/deleteInventory', [InventoryController::class, 'DeleteInventory']);
     Route::post('/makeTransaction', [InventoryController::class, 'MakeTransaction']);
 
+    //Maintain
+    Route::get('/maintainManagement', [MaintainController::class, 'AllMaintains']);
+    Route::get('/prediction', [MaintainController::class, 'Prediction']);
+    Route::get('/maintains/latest', [MaintainController::class, 'fetchLatest']);
+    Route::post('/sendNotification', [MaintainController::class, 'SendNotification']);
+    Route::post('/ignoreNotification', [MaintainController::class, 'Ignore']);
+    Route::get('/allPredictions', [MaintainController::class, 'AllPredictions']);
+
+    //for check
+    Route::get('/sendSMS', [SMSController::class, 'sendSMS']);
+
+
+    //salary management
+
+    Route::get('/salaryManagement', [SalaryController::class, 'AllSalaries']);
+    Route::post('/updateSalary', [SalaryController::class, 'UpdateSalary']);
+    Route::post('/paid/{id}', [SalaryController::class, 'Paid']);
+    Route::post('/unPaid/{id}', [SalaryController::class, 'UnPaid']);
+    Route::get('/viewAllSalary', [SalaryController::class, 'ViewAllSalary']);
 });

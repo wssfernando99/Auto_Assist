@@ -19,44 +19,45 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'userId' => 'user_'. random_int(1000000, 9999999),
-        //     'name' => 'Sayuranga Fernando',
-        //     'email' => 'sarindusauranga@gmail.com',
-        //     'role' => 'Admin',
+        User::factory()->create([
+            'userId' => 'user_'. random_int(1000000, 9999999),
+            'name' => 'Sayuranga Fernando',
+            'email' => 'sarindusauranga@gmail.com',
+            'role' => 'Admin',
+            'contact' =>'0766674922',
+            'profileImage' => 'default.png',
+            'isActive' => 1,
+            'password' => Hash::make('123'),
+
+        ]);
+
+
+        // Employee::factory()->create([
+        //     'employeeId' => 'EM_'.random_int(7,'0123456789'),
+        //     'userId' => '679bb91d3f099',
+        //     'name' => 'Sarindu Fernando',
+        //     'email' => 'fernando@gmail.com',
         //     'contact' =>'0766674922',
         //     'isActive' => 1,
-        //     'password' => Hash::make('123'),
-
+        //     'position' => 'Manager',
+        //     'salary' => '100000',
+        //     'joiningDate' => '01-01-2023',
+        //     'emImage' => 'default.png',
+        //     'address' => 'Colombo',
+        //     'nic' => '987654321V',
+        //     'gender' => 'Male',
+        //     'dob' => '2000-01-01',
         // ]);
 
-
-        Employee::factory()->create([
-            'employeeId' => 'EM_'.random_int(7,'0123456789'),
-            'userId' => '679bb91d3f099',
-            'name' => 'Sarindu Fernando',
-            'email' => 'fernando@gmail.com',
-            'contact' =>'0766674922',
-            'isActive' => 1,
-            'position' => 'Manager',
-            'salary' => '100000',
-            'joiningDate' => '01-01-2023',
-            'emImage' => 'default.png',
-            'address' => 'Colombo',
-            'nic' => '987654321V',
-            'gender' => 'Male',
-            'dob' => '2000-01-01',
-        ]);
-
-        Customer::factory()->create([
-            'customerId' => 'CU_'.random_int(1000000, 9999999),
-            'userId' => '679bb91d3f099',
-            'name' => 'Isuru Perera',
-            'email' => 'isuru@gmail.com',
-            'contact' =>'0766674922',
-            'isActive' => 1,
-            'address' => 'Colombo',
-            'check' => 0,
-        ]);
+        // Customer::factory()->create([
+        //     'customerId' => 'CU_'.random_int(1000000, 9999999),
+        //     'userId' => '679bb91d3f099',
+        //     'name' => 'Isuru Perera',
+        //     'email' => 'isuru@gmail.com',
+        //     'contact' =>'0766674922',
+        //     'isActive' => 1,
+        //     'address' => 'Colombo',
+        //     'check' => 0,
+        // ]);
     }
 }

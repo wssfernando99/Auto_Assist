@@ -200,7 +200,7 @@ class UserController extends Controller
 
             $id = session('id');
 
-            $data = User::whereNot('id',$id)->where('isActive',1)->get();
+            $data = User::where('isActive',1)->get();
 
             return view('admin.userManagement.userManagement',compact('data'));
 

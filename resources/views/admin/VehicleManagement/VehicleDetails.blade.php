@@ -108,7 +108,7 @@
                                                     data-id="{{ $vehicle->id }}" data-vehicleid="{{ $vehicle->vehicleId }}" data-brand="{{ $vehicle->vehicleBrand }}"
                                                     data-type="{{ $vehicle->vehicleType }}" data-model="{{ $vehicle->vehicleModel }}" data-engine="{{ $vehicle->engineType }}"
                                                     data-plate="{{ $vehicle->numberPlate }}" data-year="{{ $vehicle->vehicleYear }}" data-milage="{{ $vehicle->milage }}"
-                                                    data-per="{{ $vehicle->milagePer }}" data-check="{{ $vehicle->check }}"
+                                                    data-per="{{ $vehicle->milagePer }}" data-check="{{ $vehicle->check }} " data-vin="{{ $vehicle->vin }}"
                                                         ><i
                                                             class="bx bx-edit-alt me-1"></i>Edit & view</a>
 
@@ -184,6 +184,7 @@
                         let milage = button.data('milage');
                         let milagePer = button.data('per');
                         let check = button.data('check');
+                        let vin = button.data('vin');
 
                         let modal = $(this);
                         modal.find('#id').val(id);
@@ -197,6 +198,7 @@
                         modal.find('#milage').val(milage);
                         modal.find('#perMilage').val(milagePer);
                         modal.find('#check').prop('checked', check == 1);
+                        modal.find('#vin').val(vin);
 
 
                     });

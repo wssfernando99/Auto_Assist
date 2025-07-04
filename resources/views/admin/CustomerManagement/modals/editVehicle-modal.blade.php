@@ -95,7 +95,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="basic-default-company">Vin Code</label>
-                            <input type="number" class="form-control @error('vin') is-invalid @enderror"  placeholder="MR0CX9CD9N4037304"   id="vin" name="vin"  value="{{ old('vin') }}" />
+                            <input type="text" class="form-control @error('vin') is-invalid @enderror"  placeholder="MR0CX9CD9N4037304"   id="vin" name="vin"  value="{{ old('vin') }}" />
                             @error('vin')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

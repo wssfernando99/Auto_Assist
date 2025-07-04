@@ -25,6 +25,8 @@ class EmployeeController extends Controller
 
     public function AddEmployee(Request $request){
 
+        dd($request->all());
+
         try{
 
             $request->validate([
@@ -32,7 +34,7 @@ class EmployeeController extends Controller
                 'email' => 'nullable|email|unique:employees,email',
                 'contact' => 'required|digits:10|unique:employees|regex:/^[0-9]{10}$/',
                 'address' => 'required',
-                'nic' => 'required|min:10|max:12|unique:employees', 
+                'nic' => 'required|min:10|max:12|unique:employees',
                 'gender' => 'required',
                 'dob' => 'required',
                 'emImage' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -41,7 +43,7 @@ class EmployeeController extends Controller
                 'joiningDate' => 'required',
             ], [
                 'name.required' => 'Please enter your name.',
-                'email.email' => 'Please enter a valid email address.', 
+                'email.email' => 'Please enter a valid email address.',
                 'email.unique' => 'This email is already in use.',
                 'contact.required' => 'Please enter your contact number.',
                 'contact.digits' => 'Please enter a 10-digit contact number.',
@@ -61,7 +63,7 @@ class EmployeeController extends Controller
                 'salary.numeric' => 'Please enter a valid salary amount.',
                 'salary.required' => 'Please enter your salary.',
                 'joiningDate.required' => 'Please enter your joining date.',
-                
+
             ]);
 
             $userId = Auth::user()->userId;
@@ -117,7 +119,7 @@ class EmployeeController extends Controller
                 'eemail' => 'nullable|email',
                 'econtact' => 'required|digits:10|regex:/^[0-9]{10}$/',
                 'eaddress' => 'required',
-                'enic' => 'required|min:10|max:12', 
+                'enic' => 'required|min:10|max:12',
                 'egender' => 'required',
                 'edob' => 'required',
                 'eemImage' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -143,7 +145,7 @@ class EmployeeController extends Controller
                 'esalary.numeric' => 'Please enter a valid salary amount.',
                 'esalary.required' => 'Please enter your salary.',
                 'ejoiningDate.required' => 'Please enter your joining date.',
-                
+
             ]);
 
 
@@ -177,22 +179,22 @@ class EmployeeController extends Controller
                 $employee = Employee::find($id);
 
                 $employeeId = $employee->employeeId;
-    
+
                 if(!empty($request->eemImage)) {
-    
+
                     $imagePath = public_path('employeeImage/'. $employee->emImage);
-    
+
                     if(file_exists($imagePath) && $employee->emImage !== 'default.png') {
-    
+
                         unlink($imagePath);
                     }
-    
+
                     $imageName = $employeeId . '_' .$request->eemImage->getClientOriginalName();
                     $request->eemImage->move(public_path('employeeImage'), $imageName);
                 }else{
                     $imageName = $employee->emImage;
                 }
-    
+
                 Employee::where(['id' => $id])->update([
                     'name' => $request->ename,
                     'email' => $request->eemail,
@@ -208,18 +210,18 @@ class EmployeeController extends Controller
                     'userId' => $userId,
 
                  ]);
-                
+
                 return redirect()->back()->with('message', 'Employee Details Edited Successfully');
             }
 
-            
+
 
         } catch (ValidationException $e) {
             throw $e;
         } catch (Exception $e) {
             return redirect()->back()->with('error','Something Went Wrong');
         }
-            
+
     }
 
     public function DeleteEmployee(Request $request){
@@ -239,4 +241,3 @@ class EmployeeController extends Controller
         }
     }
 }
- 

@@ -4,22 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Maintenance extends Model
+class Maintain extends Model
 {
+
     protected $fillable = [
         'vehicleId',
-        'totalMilage',
+        'customerId',
+        'tMileage',
+        'Note',
         'lastService',
-        'lServiceDate',
         'lastBrake',
-        'lBrakeDate',
         'lastOil',
-        'lOilDate',
         'lastEngine',
-        'lEngineDate',
         'lastTire',
-        'lTireDate',
-        'isActive',
+        'predictedDate',
+        'send',
+        'sentCount',
+        'sendby',
+        'lastSentDate',
     ];
-
 }
